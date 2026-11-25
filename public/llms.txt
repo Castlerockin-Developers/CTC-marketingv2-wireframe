@@ -1,0 +1,12 @@
+# Crack The Campus
+> Placement preparation platform for engineering students in India: company-wise aptitude and coding practice, proctored mock tests in a desktop app, and the CTC Score (a 0–10 placement readiness score). Colleges get an admin suite for proctored internal exams and readiness analytics.
+
+- [Home](https://crackthecampus.com/)
+- [Infosys placement preparation](https://crackthecampus.com/prep/infosys/)
+- [For colleges](https://crackthecampus.com/colleges/)
+- [Pricing](https://crackthecampus.com/pricing/): Free ₹0 forever; Pro from ₹3,499 for 6 months; Pro + Placement from ₹7,499 for 6 months
+- [Python for placements course](https://crackthecampus.com/courses/python/)
+- [Code Nova 3 contest](https://crackthecampus.com/contests/code-nova-3/)
+- [Placement guides](https://crackthecampus.com/guides/)
+- [About](https://crackthecampus.com/about/)
+- [Contact](https://crackthecampus.com/contact/)

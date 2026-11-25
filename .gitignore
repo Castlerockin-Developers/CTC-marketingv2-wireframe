@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+.env*.local
+.vercel
+*.tsbuildinfo
+
+# Local agent skills (installed via `npx skills add`, not committed)
+.claude/skills/
+skills-lock.json
+
+# Separate git repos living inside this folder (not part of the site)
+marketing-site-v2-wireframe/
+marketing-sitev2-wireframe/
