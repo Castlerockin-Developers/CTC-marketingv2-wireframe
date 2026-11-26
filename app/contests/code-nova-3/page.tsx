@@ -35,7 +35,7 @@ export default function Contest() {
               <div className="cta-row"><Btn href={APP_URL}>Register free</Btn>{cal}</div>
               <Micro icon="monitor" style={{ marginTop: 16 }}>{CONTEST.date}, {CONTEST.time} IST, {CONTEST.duration}. Desktop app on Windows, macOS or Linux.</Micro>
             </div>
-            <div><Frame alt="Code Nova 3 contest banner" ratio="4/3" icon="trophy" /></div>
+            <div><Frame src="/images/contest/code-nova-3.jpg" eager alt="Code Nova 3 contest artwork: glowing code brackets around a star burst on deep indigo" ratio="4/3" /></div>
           </div>
         </section>
 

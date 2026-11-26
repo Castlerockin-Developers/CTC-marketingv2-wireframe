@@ -18,7 +18,16 @@ const TOC: [string, string][] = [
   ['how', 'How campus placement works'], ['when', 'When should you start preparing?'], ['s1', 'Step 1: Build your aptitude base'],
   ['s2', 'Step 2: Get comfortable with coding'], ['s3', 'Step 3: Prepare for the companies visiting your campus'], ['s4', 'Step 4: Practise in real test conditions'],
   ['s5', 'Step 5: Build a resume that gets you shortlisted'], ['s6', 'Step 6: Prepare for technical and HR interviews'], ['d30', 'How to prepare in 30 days'],
-  ['mist', 'Common mistakes to avoid'], ['start', 'Start today, not next semester'],
+  ['mist', 'Common mistakes to avoid'], ['start', 'Start today, not next semester'], ['faq', 'Campus placement questions'],
+];
+
+const FAQ: [string, string][] = [
+          ['When should I start preparing for campus placements?', 'Ideally in your pre-final year (3rd year for B.E./B.Tech). Start aptitude and one programming language 6 to 9 months before the first drive, then add company-pattern mocks in the last 8 to 10 weeks.'],
+          ['How many hours a day should I practise?', 'One focused hour on weekdays and two on weekends is enough for most students. Consistency beats long weekend sessions: a 30-minute timed aptitude set every day moves your score more than one 5-hour sitting.'],
+          ['Which programming language is best for placements?', 'Use the language you already know best. Python, Java and C++ are all accepted by mass recruiters. What matters is solving placement-style problems quickly and explaining your code.'],
+          ['Is aptitude more important than coding for service companies?', 'For mass recruiters like Infosys, Wipro and Capgemini, the aptitude and reasoning rounds filter out most candidates, so treat them as equally important. Product companies weigh coding more heavily.'],
+          ['Do I need a perfect CGPA?', 'No. Most companies set a cut-off (often 6.0 to 7.0 with no active backlogs). Once you clear it, your test performance, projects and interview matter far more than the exact number.'],
+          ['How do I practise for proctored online tests?', 'Take at least two full-length mocks with your camera on, a fixed timer and no switching tabs. The Crack The Campus desktop app runs mocks under the same conditions, so the real test feels familiar.'],
 ];
 
 const CtaBox = () => (
@@ -49,7 +58,7 @@ export default function Post() {
               <p className="lead" style={{ marginTop: 16 }}>{DESC}</p>
               <div className="post-meta"><span><b style={{ color: 'var(--tx)' }}>{AUTHOR.name}</b>, {AUTHOR.role}</span><span>Updated {AUTHOR.updated}</span><span>8 min read</span></div>
             </div>
-            <Frame alt="Engineering student planning placement preparation with a laptop and a weekly checklist" ratio="16/9" />
+            <Frame src="/images/guides/how-to-prepare-for-campus-placement.jpg" eager alt="Study desk with a laptop showing a timed aptitude test and a handwritten weekly placement checklist" ratio="16/9" />
           </div></div>
         </section>
 
@@ -150,14 +159,37 @@ export default function Post() {
             <p>You don’t need a perfect plan to begin, only a first step. Take a free sample test for the company you’re most likely to face, see where you stand, and build from there.</p>
             <CtaBox />
 
-            <div className="author">
-              <div>
-                <p className="cap" style={{ fontWeight: 600 }}>Written by</p>
-                <p className="h4">{AUTHOR.name}, {AUTHOR.role}</p>
-                <p className="body-sm" style={{ marginTop: 6 }}>{AUTHOR.bio}</p>
-                <p className="cap" style={{ marginTop: 8 }}>Reviewed by {AUTHOR.reviewer}. Updated {AUTHOR.updated}.</p>
+            <section id="faq" aria-labelledby="faq-h" className="mt-16">
+              <h2 id="faq-h">Campus placement questions</h2>
+              <div className="mt-6 border-0 border-t border-solid border-[var(--bd)]">
+                {FAQ.map(([q, a]) => (
+                  <details key={q} className="group border-0 border-b border-solid border-[var(--bd)]">
+                    <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-1 py-5 text-lg font-semibold text-[var(--tx)] hover:text-[var(--link)] [&::-webkit-details-marker]:hidden">
+                      {q}
+                      <span aria-hidden className="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-solid border-[var(--bd2)] text-xl leading-none transition-transform group-open:rotate-45 group-open:border-[var(--p700)] group-open:bg-[var(--p700)] group-open:text-white">+</span>
+                    </summary>
+                    <p className="!mt-0 pb-6 pl-1 pr-14 text-base leading-[26px] text-[var(--tx2)]">{a}</p>
+                  </details>
+                ))}
               </div>
-            </div>
+              <p className="mt-6"><Link href="/contact/">Ask us anything</Link></p>
+            </section>
+
+            <section className="author" aria-labelledby="about-author">
+              <h2 className="h3" id="about-author">About the author</h2>
+              <div className="author-row">
+                {AUTHOR.photo
+                  // eslint-disable-next-line @next/next/no-img-element -- static export, photo pre-sized
+                  ? <img className="author-photo" src={AUTHOR.photo} alt={`${AUTHOR.name}, ${AUTHOR.role} at Crack The Campus`} width={200} height={200} loading="lazy" />
+                  : <span className="author-photo" role="img" aria-label={`Photo of ${AUTHOR.name} coming soon`}><Icon name="user" /></span>}
+                <div>
+                  <p className="author-role">{AUTHOR.role}</p>
+                  <p className="author-name">{AUTHOR.name}</p>
+                  <p className="author-bio">{AUTHOR.bio}</p>
+                  <p className="cap" style={{ marginTop: 12 }}>Reviewed by {AUTHOR.reviewer}. Updated {AUTHOR.updated}.</p>
+                </div>
+              </div>
+            </section>
           </article>
         </div></div></section>
 

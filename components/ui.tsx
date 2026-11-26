@@ -58,7 +58,13 @@ export const Micro = ({ children, icon = 'checkc', style }: { children: ReactNod
 export const Note = ({ children }: { children: ReactNode }) => <p className="note-strip"><Icon name="info" />{children}</p>;
 
 /** Striped image frame standing in for a real screenshot/photo. Alt text is the content doc's; no caption (taste rule 1). */
-export function Frame({ alt, ratio = '16/10', icon = 'image', className = '', style }: { alt: string; ratio?: string; icon?: string; className?: string; style?: CSSProperties }) {
+export function Frame({ alt, ratio = '16/10', icon = 'image', className = '', style, src, eager }: { alt: string; ratio?: string; icon?: string; className?: string; style?: CSSProperties; src?: string; eager?: boolean }) {
+  if (src) return (
+    <figure className={`ph ${className}`} style={{ aspectRatio: ratio, ...style }}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- static export, images pre-compressed in public/images */}
+      <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    </figure>
+  );
   return (
     <figure className={`ph ${className}`} style={{ aspectRatio: ratio, ...style }} role="img" aria-label={alt}>
       <span className="ph-ic"><Icon name={icon} /></span>

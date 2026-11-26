@@ -1,22 +1,20 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { Icon } from './ui';
+import { Frame, Icon } from './ui';
 import { GUIDES, POST_SLUG, type Guide } from '@/content/site';
 import { AUTHOR } from '@/content/dummy';
 
 const CATS = ['All', 'Company guides', 'Aptitude', 'Coding', 'Interviews', 'Resume', 'Assessments', 'Contests', 'For colleges'];
 const FEATURED = { title: 'How to prepare for campus placement: a step-by-step plan', summary: 'A step-by-step plan for campus placements: aptitude, coding, company tests, resume and interviews, by year of study.', cats: ['Company guides', 'Assessments'] };
 
-function Cover({ alt }: { alt: string }) {
-  return <figure className="ph" style={{ aspectRatio: '16/9' }} role="img" aria-label={alt}><span className="ph-ic"><Icon name="image" /></span></figure>;
-}
+const Cover = ({ g }: { g: Guide }) => <Frame src={`/images/guides/${g.slug}.jpg`} alt={g.alt} ratio="16/9" />;
 
 export function PostCard({ g }: { g: Guide }) {
   // shortcut: only the featured guide is written; the rest are listed as "Coming soon" until their articles exist.
   return (
     <article className="card post-c">
-      <Cover alt={g.alt} />
+      <Cover g={g} />
       <div className="pc">
         <div className="row" style={{ gap: 8 }}><span className="badge b-v">{g.cat}</span><span className="badge b-warn">Coming soon</span></div>
         <h3>{g.title}</h3><p>{g.summary}</p>
@@ -46,7 +44,7 @@ export function GuideList() {
       <p className="cap center" style={{ marginTop: 12 }} aria-live="polite">{cat === 'All' && !q ? '' : `${n} guide${n === 1 ? '' : 's'} shown`}</p>
       {featShown && (
         <article className="feat" style={{ marginTop: 32 }}>
-          <figure className="ph" role="img" aria-label="Engineering student planning placement preparation with a laptop and a weekly checklist"><span className="ph-ic"><Icon name="image" /></span></figure>
+          <Frame src={`/images/guides/${POST_SLUG}.jpg`} alt="Study desk with a laptop showing a timed aptitude test and a handwritten weekly placement checklist" />
           <div className="fb">
             <div className="row" style={{ gap: 8 }}><span className="badge b-gold">Featured</span>{FEATURED.cats.map((c) => <span className="badge b-v" key={c}>{c}</span>)}</div>
             <h2 className="h3">{FEATURED.title}</h2><p className="body-sm">{FEATURED.summary}</p>

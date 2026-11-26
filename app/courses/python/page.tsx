@@ -2,7 +2,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Faq, StickyCta } from '@/components/interactive';
 import { FaqSec, Main } from '@/components/sections';
-import { Btn, Card, Chips, Crumb, Frame, Head, Icon, JsonLd, Quotes, Sec } from '@/components/ui';
+import { Btn, Card, Chips, Crumb, Head, PracticeWin, Icon, JsonLd, Quotes, Sec } from '@/components/ui';
 import { APP_URL, SITE_URL } from '@/content/site';
 import { COURSE, LEARNER_QUOTES } from '@/content/dummy';
 
@@ -36,7 +36,7 @@ export default function Course() {
               <div className="cta-row"><Btn href={APP_URL}>Start this course free</Btn><a className="btn btn-g" href="#lesson1">Preview lesson 1</a></div>
             </div>
             <div className="card pad-lg" style={{ padding: 0, overflow: 'hidden' }}>
-              <Frame alt="Python lesson showing a for loop example" className="flat" icon="code" />
+              <div className="ui-frame flat-frame" role="img" aria-label="Python lesson showing a for loop example"><PracticeWin label="Python course, lesson 4: for loops" tags={['Python', 'Loops']} q="for i in range(1, 6, 2): print(i). What prints?" opts={['1 3 5', '1 2 3 4 5', '2 4 6']} sel={0} /></div>
               <div style={{ padding: '20px 24px' }}>
                 <p className="cap" style={{ fontWeight: 600 }}>What’s included</p>
                 <div className="row" style={{ justifyContent: 'space-between', marginTop: 10 }}>
