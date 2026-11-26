@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import { CompareTable, PricingPlans } from '@/components/Pricing';
 import { FaqSec, Main } from '@/components/sections';
 import { Band, Btn, Head, Icon, JsonLd, Sec } from '@/components/ui';
+import { btn, card, split, tw } from '@/components/tw';
 import { APP_URL, SITE_URL } from '@/content/site';
 
 export const metadata = {
@@ -22,32 +23,32 @@ export default function Pricing() {
         { '@type': 'Offer', name: 'Pro + Placement, 6 months', price: '7499', priceCurrency: 'INR' },
       ] }} />
       <Main>
-        <section className="hero center compact" style={{ paddingBottom: 40 }}>
-          <div className="wrap" data-enter>
-            <h1 className="h1">Simple plans for placement prep</h1>
-            <p className="lead" style={{ marginTop: 16 }}>Start free. Upgrade for more proctored assessments, advanced courses and placement support. Prices in INR, taxes as applicable.</p>
-            <h2 className="sr">Plans</h2>
+        <section className={`${tw.hero} ${tw.heroCompact} text-center`} style={{ paddingBottom: 40 }}>
+          <div className={`${tw.wrap} ${tw.heroWrap} ${tw.enter}`}>
+            <h1 className={`${tw.h1} ${tw.heroH1}`}>Simple plans for placement prep</h1>
+            <p className={`${tw.lead} ${tw.heroLead} mx-auto`} style={{ marginTop: 16 }}>Start free. Upgrade for more proctored assessments, advanced courses and placement support. Prices in INR, taxes as applicable.</p>
+            <h2 className={tw.sr}>Plans</h2>
             <PricingPlans />
           </div>
         </section>
 
-        <Sec className="light"><Head h="Compare plans" /><CompareTable /></Sec>
+        <Sec className={tw.light}><Head h="Compare plans" /><CompareTable /></Sec>
 
         <Sec>
-          <div className="split" style={{ alignItems: 'start' }}>
-            <h2 className="h2">What “placement support” includes</h2>
+          <div className={`${split()}`} data-reveal="split" style={{ alignItems: 'start' }}>
+            <h2 className={tw.h2}>What “placement support” includes</h2>
             <div>
-              <p className="lead">Four one-to-one mock interviews with industry reviewers, two resume reviews, weekly drive alerts for your branch and graduation year, and priority registration for partner hiring events.</p>
-              <div className="alert a-info" style={{ marginTop: 24 }}><Icon name="info" /><span>Placement support helps you prepare and apply. It does not guarantee a job offer.</span></div>
+              <p className={tw.lead}>Four one-to-one mock interviews with industry reviewers, two resume reviews, weekly drive alerts for your branch and graduation year, and priority registration for partner hiring events.</p>
+              <div className={`${tw.alert} ${tw.aInfo}`} style={{ marginTop: 24 }}><Icon name="info" /><span>Placement support helps you prepare and apply. It does not guarantee a job offer.</span></div>
             </div>
           </div>
         </Sec>
 
-        <Sec className="raised">
-          <div className="cols c3">
-            <div className="card"><span className="ic"><Icon name="lock" /></span><h3 className="h3s">Secure payments</h3><p>Pay with UPI, cards or net banking. Colleges can pay by bank transfer.</p></div>
-            <div className="card"><span className="ic"><Icon name="refresh" /></span><h3 className="h3s">Change plans any time</h3><p>Upgrade or downgrade whenever you like; changes apply from your next billing cycle.</p></div>
-            <div className="card"><span className="ic"><Icon name="card" /></span><h3 className="h3s">Refunds</h3><p>Read our <Link href="/refund-policy/">Refund &amp; cancellation policy</Link>.</p></div>
+        <Sec className={tw.light}>
+          <div className={`${tw.cols} ${tw.c3}`} data-reveal="kids">
+            <div className={card()}><span className={tw.ic}><Icon name="lock" /></span><h3 className={tw.h3s}>Secure payments</h3><p>Pay with UPI, cards or net banking. Colleges can pay by bank transfer.</p></div>
+            <div className={card()}><span className={tw.ic}><Icon name="refresh" /></span><h3 className={tw.h3s}>Change plans any time</h3><p>Upgrade or downgrade whenever you like; changes apply from your next billing cycle.</p></div>
+            <div className={card()}><span className={tw.ic}><Icon name="card" /></span><h3 className={tw.h3s}>Refunds</h3><p>Read our <Link href="/refund-policy/">Refund &amp; cancellation policy</Link>.</p></div>
           </div>
         </Sec>
 
@@ -63,9 +64,9 @@ export default function Pricing() {
         <Band hide={false} h="Not sure yet? Start free and upgrade any time." cta={<Btn kind="s" href={APP_URL}>Start free</Btn>} cta2={<Link href="/contact/">Talk to us</Link>} />
       </Main>
       <Footer />
-      <div className="sticky" role="region" aria-label="Selected plan">
-        <div className="st"><b>Pro + Placement</b><span data-stprice="">₹7,499 for 6 months</span></div>
-        <a className="btn btn-p" href={APP_URL}>Get plan</a>
+      <div className={tw.sticky} role="region" aria-label="Selected plan">
+        <div className={tw.stickyText}><b>Pro + Placement</b><span data-stprice="">₹7,499 for 6 months</span></div>
+        <a className={btn('p', { size: 'min-h-12 px-[18px]' })} data-btn="p" href={APP_URL}>Get plan</a>
       </div>
     </>
   );

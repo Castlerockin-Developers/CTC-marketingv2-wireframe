@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useState } from 'react';
 import { Icon } from './ui';
+import { btn, tw } from './tw';
 import { APP_URL } from '@/content/site';
 
 // Dummy sample questions (draft); real ones come from the Prep Deck.
@@ -33,36 +34,37 @@ export default function SampleQuiz({ company, minutes }: { company: string; minu
     else { setN(n + 1); setTimeout(() => firstOpt.current?.focus(), 0); }
   };
   const q = QS[n];
+  const show = (s: typeof state) => (state === s ? 'block' : 'hidden');
 
   return (
-    <div className="qz" data-state={state} data-hide-sticky="">
-      <div className="qz-top"><span className="mono" style={{ color: 'var(--act)', fontSize: 14 }}>{company} sample</span><span className="timer"><Icon name="clock" />{minutes}:00</span></div>
-      <div className="qz-prog" data-st="q"><i style={{ width: `${(n + 1) * 10}%` }} /></div>
-      <div className="qz-body">
-        <div data-st="intro">
-          <h3 className="h3s">{company} sample test</h3>
-          <p className="body-sm" style={{ margin: '8px 0 20px' }}>10 questions in {minutes} minutes. No sign-up needed to start.</p>
-          <button type="button" className="btn btn-p btn-blk" onClick={() => { setState('q'); setN(0); setScore(0); setBySec({}); setTimeout(() => firstOpt.current?.focus(), 0); }}>Start the sample test</button>
+    <div className="bg-white border border-l200 rounded-[20px] overflow-hidden shadow-2" data-hide-sticky="">
+      <div className="flex items-center justify-between gap-3 py-4 px-6 border-b border-l200 bg-l50 m:py-3 m:px-4"><span className={tw.mono} style={{ color: 'var(--act)', fontSize: 14 }}>{company} sample</span><span className="font-mono font-medium text-l800 text-[13px] inline-flex gap-1.5 items-center"><Icon name="clock" />{minutes}:00</span></div>
+      <div className={`h-1.5 bg-l100 ${show('q')}`}><i className="block h-full bg-[linear-gradient(90deg,var(--lav),var(--act))] w-[10%] transition-[width] duration-med" style={{ width: `${(n + 1) * 10}%` }} /></div>
+      <div className="p-8 m:p-5">
+        <div className={show('intro')}>
+          <h3 className={tw.h3s}>{company} sample test</h3>
+          <p className={tw.sm} style={{ margin: '8px 0 20px' }}>10 questions in {minutes} minutes. No sign-up needed to start.</p>
+          <button type="button" className={btn('p', { blk: true })} data-btn="p" onClick={() => { setState('q'); setN(0); setScore(0); setBySec({}); setTimeout(() => firstOpt.current?.focus(), 0); }}>Start the sample test</button>
         </div>
-        <div data-st="q">
-          <p className="cap">Question {n + 1} of 10, {q.s}</p>
-          <p className="h4" style={{ margin: '8px 0' }}>{q.q}</p>
+        <div className={show('q')}>
+          <p className={tw.cap}>Question {n + 1} of 10, {q.s}</p>
+          <p className={tw.h4} style={{ margin: '8px 0' }}>{q.q}</p>
           <div role="radiogroup" aria-label="Answer options">
             {q.o.map((o, k) => (
-              <button key={o} ref={k === 0 ? firstOpt : undefined} type="button" className={`opt ${sel === k ? 'sel' : ''}`} role="radio" aria-checked={sel === k} onClick={() => setSel(k)}><i />{o}</button>
+              <button key={o} ref={k === 0 ? firstOpt : undefined} type="button" className={`flex items-center gap-2.5 border rounded-[10px] mt-2 text-[16px] py-3.5 px-4 min-h-[52px] cursor-pointer w-full text-left text-l900 transition-[border-color,background] duration-fast hover:border-l500 ${sel === k ? 'border-lav bg-tint' : 'border-l200 bg-transparent'}`} role="radio" aria-checked={sel === k} onClick={() => setSel(k)}><i className={`w-[18px] h-[18px] rounded-full border-[1.5px] flex-none ${sel === k ? 'border-act bg-[radial-gradient(var(--act)_40%,transparent_45%)]' : 'border-l500'}`} />{o}</button>
             ))}
           </div>
-          <div className="qz-foot">
-            <button type="button" className="btn btn-g" onClick={() => next(true)}>Skip</button>
-            <button type="button" className="btn btn-p" onClick={() => next()} disabled={sel === null}>{n === 9 ? 'See my result' : 'Next question'}</button>
+          <div className="flex justify-between gap-3 mt-6">
+            <button type="button" className={btn('g')} data-btn="g" onClick={() => next(true)}>Skip</button>
+            <button type="button" className={btn('p')} data-btn="p" onClick={() => next()} disabled={sel === null}>{n === 9 ? 'See my result' : 'Next question'}</button>
           </div>
         </div>
-        <div data-st="res" aria-live="polite">
-          <span className="badge b-ok">Sample complete</span>
-          <h3 className="h3" style={{ margin: '12px 0 4px' }}>Your score: <span className="mono" style={{ color: 'var(--act-h)' }}>{score} / 10</span></h3>
-          <p className="body-sm">{Object.keys(bySec).length ? Object.entries(bySec).map(([s, v]) => `${s}: ${v}`).join(', ') : 'Try the topic drills to find your weakest section.'}</p>
-          <div style={{ marginTop: 20 }}><a className="btn btn-p btn-blk" href={APP_URL}>Create a free account to save your result</a></div>
-          <p className="cap" style={{ marginTop: 10, textAlign: 'center' }}>Then go on to full {company} mocks.</p>
+        <div className={show('res')} aria-live="polite">
+          <span className={`${tw.badge} ${tw.bOk}`}>Sample complete</span>
+          <h3 className={tw.h3} style={{ margin: '12px 0 4px' }}>Your score: <span className={tw.mono} style={{ color: 'var(--act-h)' }}>{score} / 10</span></h3>
+          <p className={tw.sm}>{Object.keys(bySec).length ? Object.entries(bySec).map(([s, v]) => `${s}: ${v}`).join(', ') : 'Try the topic drills to find your weakest section.'}</p>
+          <div style={{ marginTop: 20 }}><a className={btn('p', { blk: true })} data-btn="p" href={APP_URL}>Create a free account to save your result</a></div>
+          <p className={tw.cap} style={{ marginTop: 10, textAlign: 'center' }}>Then go on to full {company} mocks.</p>
         </div>
       </div>
     </div>

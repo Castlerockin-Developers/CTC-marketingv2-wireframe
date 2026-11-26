@@ -12,5 +12,5 @@ export function LogoMark() {
 }
 
 export function Wordmark() {
-  return <span className="wm" aria-hidden="true"><b>Crack</b><span><i>The</i> Campus</span></span>;
+  return <span className="flex flex-col leading-none font-head font-extrabold tracking-[.06em] uppercase text-[14px] text-l950" aria-hidden="true"><b className="font-extrabold">Crack</b><span className="mt-0.5"><i className="not-italic text-l400">The</i> Campus</span></span>;
 }

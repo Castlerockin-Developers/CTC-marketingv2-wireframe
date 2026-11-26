@@ -52,14 +52,16 @@ export const FOOTER_COLS: { title: string; links: [string, string][] }[] = [
   { title: 'Resources', links: [['Placement guides', '/guides/'], ['Help and support', '/contact/#help'], ['FAQ', '/#faq'], ['CTC Score explained', '/#ctc-score']] },
 ];
 
-export const COMPANIES: { slug: string; name: string }[] = [
-  { slug: 'infosys', name: 'Infosys' },
-  { slug: 'wipro', name: 'Wipro' },
-  { slug: 'capgemini', name: 'Capgemini' },
-  { slug: 'hcl', name: 'HCL' },
-  { slug: 'ltimindtree', name: 'LTIMindtree' },
-  { slug: 'oracle', name: 'Oracle' },
-  { slug: 'microsoft', name: 'Microsoft' },
+/** logoH: rendered logo height in px, tuned per mark so wide wordmarks and square marks look the same size.
+ *  Logos (public/images/logos/<slug>.svg) are the companies' trademarks from Wikimedia Commons; used only to name the test we prep for. */
+export const COMPANIES: { slug: string; name: string; logoH: number }[] = [
+  { slug: 'infosys', name: 'Infosys', logoH: 30 },
+  { slug: 'wipro', name: 'Wipro', logoH: 52 },
+  { slug: 'capgemini', name: 'Capgemini', logoH: 30 },
+  { slug: 'hcl', name: 'HCL', logoH: 20 },
+  { slug: 'ltimindtree', name: 'LTIMindtree', logoH: 26 },
+  { slug: 'oracle', name: 'Oracle', logoH: 20 },
+  { slug: 'microsoft', name: 'Microsoft', logoH: 30 },
 ];
 
 export type Faq = [string, string];

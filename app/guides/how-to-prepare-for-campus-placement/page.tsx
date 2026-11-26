@@ -5,6 +5,7 @@ import { ExitIntent, PostCard, Toc } from '@/components/Guides';
 import { StickyCta } from '@/components/interactive';
 import { Main } from '@/components/sections';
 import { Band, Btn, Crumb, Frame, Head, Icon, JsonLd, Sec } from '@/components/ui';
+import { tw } from '@/components/tw';
 import { GUIDES, POST_SLUG, SITE_URL } from '@/content/site';
 import { AUTHOR } from '@/content/dummy';
 
@@ -30,8 +31,10 @@ const FAQ: [string, string][] = [
           ['How do I practise for proctored online tests?', 'Take at least two full-length mocks with your camera on, a fixed timer and no switching tabs. The Crack The Campus desktop app runs mocks under the same conditions, so the real test feels familiar.'],
 ];
 
+const AUTHOR_PHOTO = 'w-[200px] h-[200px] rounded-2xl object-cover bg-tint flex items-center justify-center text-act [&_svg]:w-12 [&_svg]:h-12 m:w-[120px] m:h-[120px]';
+
 const CtaBox = () => (
-  <aside className="ctabox" data-hide-sticky="">
+  <aside className="rounded-2xl p-7 bg-tint border border-tint2 text-l900 !my-10 m:py-[22px] m:px-5 [&_h3]:text-l950 [&_h3]:font-head [&_h3]:text-[22px] [&_h3]:leading-[30px] [&_p]:mt-1.5 [&_p]:mb-[18px] [&_p]:text-[16px] [&_p]:leading-6 m:[&_[data-btn]]:w-full" data-hide-sticky="">
     <h3>See where you stand in 15 minutes.</h3>
     <p>Take a free 10-question company sample. No sign-up needed to start.</p>
     <Btn href="/prep/infosys/#sample">Start a free sample test</Btn>
@@ -49,23 +52,23 @@ export default function Post() {
           { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL + '/' }, { '@type': 'ListItem', position: 2, name: 'Guides', item: SITE_URL + '/guides/' }, { '@type': 'ListItem', position: 3, name: TITLE, item: URL }] },
       ]} />
       <Main>
-        <section className="hero compact" style={{ paddingBottom: 48 }}>
-          <div className="wrap"><div className="article-hd" data-enter>
+        <section className={`${tw.hero} ${tw.heroCompact}`} style={{ paddingBottom: 48 }}>
+          <div className={`${tw.wrap} ${tw.heroWrap}`}><div className={`${tw.articleHd} ${tw.enter}`}>
             <div>
               <Crumb items={[['Home', '/'], ['Guides', '/guides/'], ['Company guides']]} />
-              <div className="row" style={{ gap: 8 }}><span className="badge b-v">Company guides</span><span className="badge b-n">Assessments</span></div>
-              <h1 className="h1" style={{ marginTop: 16 }}>{TITLE}</h1>
-              <p className="lead" style={{ marginTop: 16 }}>{DESC}</p>
-              <div className="post-meta"><span><b style={{ color: 'var(--tx)' }}>{AUTHOR.name}</b>, {AUTHOR.role}</span><span>Updated {AUTHOR.updated}</span><span>8 min read</span></div>
+              <div className={tw.row} style={{ gap: 8 }}><span className={`${tw.badge} ${tw.bV}`}>Company guides</span><span className={`${tw.badge} ${tw.bN}`}>Assessments</span></div>
+              <h1 className={`${tw.h1} ${tw.heroH1}`} style={{ marginTop: 16 }}>{TITLE}</h1>
+              <p className={`${tw.lead} ${tw.heroLead}`} style={{ marginTop: 16 }}>{DESC}</p>
+              <div className="flex gap-3 items-center flex-wrap text-[14.5px] text-tx3 mt-5"><span><b style={{ color: 'var(--tx)' }}>{AUTHOR.name}</b>, {AUTHOR.role}</span><span>Updated {AUTHOR.updated}</span><span>8 min read</span></div>
             </div>
-            <Frame src="/images/guides/how-to-prepare-for-campus-placement.jpg" eager alt="Study desk with a laptop showing a timed aptitude test and a handwritten weekly placement checklist" ratio="16/9" />
+            <Frame className="mt-10" src="/images/guides/how-to-prepare-for-campus-placement.jpg" eager alt="Study desk with a laptop showing a timed aptitude test and a handwritten weekly placement checklist" ratio="16/9" />
           </div></div>
         </section>
 
-        <section className="sec light" style={{ paddingTop: 64 }}><div className="wrap"><div className="art">
+        <section className={`${tw.sec} ${tw.light}`} style={{ paddingTop: 64 }}><div className={tw.wrap}><div className="grid grid-cols-[240px_minmax(0,680px)] gap-16 justify-center m:grid-cols-[1fr] m:gap-0">
           <Toc items={TOC} />
-          <article className="prose" id="article">
-            <details className="toc-m"><summary>On this page <Icon name="down" /></summary><ol>{TOC.map(([id, t]) => <li key={id}><a href={`#${id}`}>{t}</a></li>)}</ol></details>
+          <article className={tw.prose} id="article">
+            <details className="hidden m:block m:border m:border-l200 m:rounded-xl m:bg-white m:mb-8"><summary className="m:min-h-[52px] m:flex m:items-center m:justify-between m:px-4 m:font-semibold m:text-tx m:cursor-pointer m:list-none m:[&::-webkit-details-marker]:hidden">On this page <Icon name="down" /></summary><ol className="m:list-none m:!pt-0 m:!px-2 m:!pb-2">{TOC.map(([id, t]) => <li key={id}><a className="m:flex m:items-center m:min-h-11 m:px-2 m:!text-tx2 m:!no-underline m:text-[15px]" href={`#${id}`}>{t}</a></li>)}</ol></details>
             <p>Campus placements can feel like one giant, scary event. In reality, they’re a sequence of fairly predictable steps: an online test, one or two interviews and an offer. Once you know the sequence, you can prepare for each step on purpose instead of panicking about all of them at once.</p>
             <p>This guide walks you through the whole process: what happens in a typical drive, what to practise for each round, and a simple plan whether you have a year or a month.</p>
 
@@ -140,9 +143,9 @@ export default function Post() {
 
             <h2 id="d30">How to prepare for placements in 30 days</h2>
             <p>If drives are close, here is a focused plan:</p>
-            <div className="tablebox"><table className="dtable"><caption className="sr">30-day placement plan</caption><tbody>
+            <div className={tw.tablebox}><table className={tw.dtable}><caption className={tw.sr}>30-day placement plan</caption><tbody>
               {[['Days 1–3', 'Take one full mock in your first target company’s pattern. List your three weakest topics.'], ['Days 4–14', 'Daily: 40 minutes on one weak aptitude topic, 30 minutes of coding or pseudocode, 10 minutes of verbal.'], ['Days 15–21', 'Company-specific section practice for your top two recruiters. One full timed mock every three days.'], ['Days 22–27', 'Two proctored mocks a week. Fix your resume. Practise interview answers aloud.'], ['Days 28–30', 'Light revision, rest and a final system check if your test is online.']].map(([d, t]) => (
-                <tr key={d}><th scope="row" className="mono" style={{ color: 'var(--act-h)' }}>{d}</th><td>{t}</td></tr>
+                <tr key={d}><th scope="row" className={tw.mono} style={{ color: 'var(--act-h)' }}>{d}</th><td>{t}</td></tr>
               ))}
             </tbody></table></div>
 
@@ -159,34 +162,34 @@ export default function Post() {
             <p>You don’t need a perfect plan to begin, only a first step. Take a free sample test for the company you’re most likely to face, see where you stand, and build from there.</p>
             <CtaBox />
 
-            <section id="faq" aria-labelledby="faq-h" className="mt-16">
+            <section id="faq" aria-labelledby="faq-h">
               <h2 id="faq-h">Campus placement questions</h2>
-              <div className="mt-6 border-0 border-t border-solid border-[var(--bd)]">
+              <div className="mt-6 border-t border-bd">
                 {FAQ.map(([q, a]) => (
-                  <details key={q} className="group border-0 border-b border-solid border-[var(--bd)]">
-                    <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-1 py-5 text-lg font-semibold text-[var(--tx)] hover:text-[var(--link)] [&::-webkit-details-marker]:hidden">
+                  <details key={q} className="group border-b border-bd">
+                    <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-1 py-5 text-lg font-semibold text-tx hover:text-link [&::-webkit-details-marker]:hidden">
                       {q}
-                      <span aria-hidden className="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-solid border-[var(--bd2)] text-xl leading-none transition-transform group-open:rotate-45 group-open:border-[var(--p700)] group-open:bg-[var(--p700)] group-open:text-white">+</span>
+                      <span aria-hidden className="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-bd2 text-xl leading-none transition-transform group-open:rotate-45 group-open:border-p700 group-open:bg-p700 group-open:text-white">+</span>
                     </summary>
-                    <p className="!mt-0 pb-6 pl-1 pr-14 text-base leading-[26px] text-[var(--tx2)]">{a}</p>
+                    <p className="!mt-0 pb-6 pl-1 pr-14 text-base leading-[26px] text-tx2">{a}</p>
                   </details>
                 ))}
               </div>
               <p className="mt-6"><Link href="/contact/">Ask us anything</Link></p>
             </section>
 
-            <section className="author" aria-labelledby="about-author">
-              <h2 className="h3" id="about-author">About the author</h2>
-              <div className="author-row">
+            <section className="block border border-l200 rounded-[20px] p-8 bg-white m:py-6 m:px-5" aria-labelledby="about-author">
+              <h2 className={`${tw.h3} pb-5 mb-7 border-b border-line`} id="about-author">About the author</h2>
+              <div className="grid grid-cols-[200px_1fr] gap-8 items-center m:grid-cols-[1fr] m:gap-5">
                 {AUTHOR.photo
                   // eslint-disable-next-line @next/next/no-img-element -- static export, photo pre-sized
-                  ? <img className="author-photo" src={AUTHOR.photo} alt={`${AUTHOR.name}, ${AUTHOR.role} at Crack The Campus`} width={200} height={200} loading="lazy" />
-                  : <span className="author-photo" role="img" aria-label={`Photo of ${AUTHOR.name} coming soon`}><Icon name="user" /></span>}
+                  ? <img className={AUTHOR_PHOTO} src={AUTHOR.photo} alt={`${AUTHOR.name}, ${AUTHOR.role} at Crack The Campus`} width={200} height={200} loading="lazy" />
+                  : <span className={AUTHOR_PHOTO} role="img" aria-label={`Photo of ${AUTHOR.name} coming soon`}><Icon name="user" /></span>}
                 <div>
-                  <p className="author-role">{AUTHOR.role}</p>
-                  <p className="author-name">{AUTHOR.name}</p>
-                  <p className="author-bio">{AUTHOR.bio}</p>
-                  <p className="cap" style={{ marginTop: 12 }}>Reviewed by {AUTHOR.reviewer}. Updated {AUTHOR.updated}.</p>
+                  <p className="text-[15px] text-muted">{AUTHOR.role}</p>
+                  <p className="font-head font-bold text-[26px] leading-[1.25] tracking-[-.015em] text-ink">{AUTHOR.name}</p>
+                  <p className="text-[17px] leading-[1.6] text-body max-w-[60ch]">{AUTHOR.bio}</p>
+                  <p className={tw.cap} style={{ marginTop: 12 }}>Reviewed by {AUTHOR.reviewer}. Updated {AUTHOR.updated}.</p>
                 </div>
               </div>
             </section>
@@ -195,7 +198,7 @@ export default function Post() {
 
         <Sec>
           <Head h="Related guides" />
-          <div className="cols c3 hscroll">{GUIDES.slice(0, 3).map((g) => <PostCard key={g.slug} g={g} />)}</div>
+          <div className={`${tw.cols} ${tw.c3} ${tw.hscroll}`} data-reveal="kids">{GUIDES.slice(0, 3).map((g) => <PostCard key={g.slug} g={g} />)}</div>
         </Sec>
         <Band h="See where you stand in 15 minutes." p="Take a free 10-question company sample. No sign-up needed to start." cta={<Btn href="/prep/infosys/#sample">Start a free sample test</Btn>} cta2={<Link href="/prep/infosys/">Explore company prep</Link>} />
       </Main>
