@@ -13,7 +13,7 @@ const TITLE = 'How to prepare for campus placement: a step-by-step plan';
 const DESC = 'A step-by-step plan for campus placements: aptitude, coding, company tests, resume and interviews, by year of study.';
 const URL = `${SITE_URL}/guides/${POST_SLUG}/`;
 
-export const metadata = { title: TITLE, description: DESC, alternates: { canonical: `/guides/${POST_SLUG}/` }, openGraph: { type: 'article', title: TITLE, description: DESC } };
+export const metadata = { title: { absolute: 'How to Prepare for Campus Placement (2026 Guide)' }, description: DESC, alternates: { canonical: `/guides/${POST_SLUG}/` }, openGraph: { type: 'article', title: TITLE, description: DESC } };
 
 const TOC: [string, string][] = [
   ['how', 'How campus placement works'], ['when', 'When should you start preparing?'], ['s1', 'Step 1: Build your aptitude base'],
@@ -48,8 +48,6 @@ export default function Post() {
       <JsonLd data={[
         { '@context': 'https://schema.org', '@type': 'Article', headline: TITLE, description: DESC, mainEntityOfPage: URL, dateModified: '2026-11-18',
           author: { '@type': 'Person', name: AUTHOR.name, jobTitle: AUTHOR.role }, publisher: { '@type': 'Organization', name: 'Crack The Campus', logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.svg` } } },
-        { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL + '/' }, { '@type': 'ListItem', position: 2, name: 'Guides', item: SITE_URL + '/guides/' }, { '@type': 'ListItem', position: 3, name: TITLE, item: URL }] },
       ]} />
       <Main>
         <section className={`${tw.hero} ${tw.heroCompact}`} style={{ paddingBottom: 48 }}>

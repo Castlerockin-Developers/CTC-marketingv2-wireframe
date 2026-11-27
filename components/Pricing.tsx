@@ -23,7 +23,7 @@ export function PricingPlans() {
     <article className={`${PLAN} ${o.rec ? '!border-2 !border-l400 bg-[linear-gradient(180deg,var(--l50),#fff_45%)] shadow-[0_20px_50px_rgba(91,68,227,.14)] m:-order-1' : ''}`}>
       {o.rec && <span className={`${tw.badge} ${tw.bGold} absolute -top-3.5 left-8`}>Recommended</span>}
       <h3 className={PLAN_H3}>{o.name}</h3><p className={PD}>{o.desc}</p>
-      <div className="flex items-baseline gap-2 mt-5 flex-wrap"><b className="font-head font-medium text-[44px] leading-[52px] text-tx tracking-[-.02em] tabular-nums">{o.price}</b><span className="text-tx3 text-[15px]">{o.per}</span></div>
+      <div className="flex items-baseline gap-2 mt-5 flex-wrap"><b className="font-head font-bold text-[44px] leading-[52px] text-tx tracking-[-.02em] tabular-nums">{o.price}</b><span className="text-tx3 text-[15px]">{o.per}</span></div>
       <p className="text-[14px] text-tx3 min-h-[22px]">{o.was ? <><span className={tw.sr}>Previously </span><s className="text-tx3">{o.was}</s></> : ' '}</p>
       {o.cta}{checks(o.feats)}
     </article>
@@ -63,28 +63,57 @@ export function PricingPlans() {
   );
 }
 
-const ROWS: [string, string, string, string][] = [
-  ['AI resume', '1 resume', '13 exports', '18 exports'], ['CTC assessments', '5 total', '23 a month', '25 a month'], ['Practice assessments', '✓', '✓', '✓'],
-  ['Advanced courses', '—', '✓', '✓'], ['Contests', 'Limited', 'Full', 'Full'], ['AI help', 'Limited', 'Extended', '2× Pro'],
-  ['Internship opportunities', '—', '✓', '✓'], ['Detailed analytics', '—', '✓', '✓'], ['Placement support', '—', '—', '✓'],
+// rows grouped Chargebee-style; values unchanged from the content doc
+const GROUPS: [group: string, rows: [string, string, string, string][]][] = [
+  ['Assessments', [['CTC assessments', '5 total', '23 a month', '25 a month'], ['Practice assessments', '✓', '✓', '✓'], ['Contests', 'Limited', 'Full', 'Full']]],
+  ['Learning', [['Advanced courses', '—', '✓', '✓'], ['AI help', 'Limited', 'Extended', '2× Pro'], ['Detailed analytics', '—', '✓', '✓']]],
+  ['Career', [['AI resume', '1 resume', '13 exports', '18 exports'], ['Internship opportunities', '—', '✓', '✓'], ['Placement support', '—', '—', '✓']]],
+];
+const PLANS_H: [name: string, price: string, cta: string, href: string][] = [
+  ['Free', '₹0 forever', 'Start free', APP_URL],
+  ['Pro', `From ${PLAN_PRICES.pro.p6}`, 'Get Pro', APP_URL],
+  ['Pro + Placement', `From ${PLAN_PRICES.pp.p6}`, 'Get Pro + Placement', APP_URL],
 ];
 
-// on mobile one plan column shows at a time (picked with the tabs above the table)
-const CMP = 'w-full border-separate border-spacing-0 bg-white border border-l200 rounded-2xl overflow-hidden text-[15px] [&_th]:py-4 [&_th]:px-5 [&_td]:py-4 [&_td]:px-5 [&_th]:text-left [&_td]:text-left [&_th]:border-b [&_td]:border-b [&_th]:border-l200 [&_td]:border-l200 [&_tr:last-child_td]:border-b-0 [&_thead_th]:text-[14px] [&_thead_th]:text-tx [&_thead_th]:bg-l50 [&_thead_th]:font-semibold [&_tbody_th]:font-medium [&_tbody_th]:text-tx [&_td]:text-tx2 [&_td]:tabular-nums m:[&_thead]:hidden m:[&_th]:py-3.5 m:[&_th]:px-4 m:[&_td]:py-3.5 m:[&_td]:px-4 m:[&_tbody_th]:w-[55%]';
+// on mobile one plan column shows at a time (picked with the tabs above the table); the header row sticks under the site header
+const HL = 'bg-tint';
 export function CompareTable() {
   const [col, setCol] = useState(3);
-  const cell = (c: string) => (c === '✓' ? <span className="[&_svg]:w-5 [&_svg]:h-5 [&_svg]:text-act"><Icon name="check" /><span className={tw.sr}>Included</span></span> : c === '—' ? <span aria-label="Not included">—</span> : c);
+  const hide = (k: number) => (col === k + 1 ? '' : 'm:hidden');
+  const cell = (c: string) => (c === '✓' ? <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-act text-white [&_svg]:h-3.5 [&_svg]:w-3.5"><Icon name="check" /><span className={tw.sr}>Included</span></span> : c === '—' ? <span className="text-line-2" aria-label="Not included">—</span> : c);
   return (
     <>
       <div className={`hidden m:flex m:mb-3 ${tw.seg}`} role="group" aria-label="Choose a plan to compare">
-        {['Free', 'Pro', 'Pro + Placement'].map((t, k) => <button className={tw.segBtn} key={t} type="button" aria-pressed={col === k + 1} onClick={() => setCol(k + 1)}>{t}</button>)}
+        {PLANS_H.map(([t], k) => <button className={tw.segBtn} key={t} type="button" aria-pressed={col === k + 1} onClick={() => setCol(k + 1)}>{t}</button>)}
       </div>
-      <table className={CMP}>
+      <table className="w-full border-separate border-spacing-0 text-[15.5px]">
         <caption className={tw.sr}>Feature comparison of Free, Pro and Pro + Placement</caption>
-        <thead><tr><th scope="col">Feature</th><th scope="col">Free</th><th scope="col">Pro</th><th scope="col" className="bg-l50">Pro + Placement</th></tr></thead>
-        <tbody>{ROWS.map((r) => (
-          <tr key={r[0]}><th scope="row">{r[0]}</th>{r.slice(1).map((c, k) => <td key={k} className={`${k === 2 ? 'bg-l50' : ''} ${col === k + 1 ? '' : 'm:hidden'}`}>{cell(c)}</td>)}</tr>
-        ))}</tbody>
+        <thead className="m:hidden">
+          <tr>
+            <th scope="col" className="sticky top-[72px] z-[2] w-[34%] border-b border-line-2 bg-alt pb-5 align-bottom text-left font-mono text-[12px] font-medium uppercase tracking-[.08em] text-muted">Compare features</th>
+            {PLANS_H.map(([n, pr, cta, href], k) => (
+              <th scope="col" key={n} className={`sticky top-[72px] z-[2] border-b border-line-2 px-5 pb-5 pt-6 text-left align-bottom font-normal ${k === 2 ? 'rounded-t-[20px] bg-tint' : 'bg-alt'}`}>
+                <span className="block font-head text-[20px] font-bold text-ink">{n}</span>
+                <span className="mt-1 block text-[14px] text-muted">{pr}</span>
+                <Link className={`${btn(k === 2 ? 'p' : 's', { sm: true })} mt-4`} data-btn={k === 2 ? 'p' : 's'} href={href}>{cta}</Link>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        {GROUPS.map(([g, rows], gi) => (
+          <tbody key={g}>
+            <tr><th scope="rowgroup" className="pb-3 pt-9 text-left font-mono text-[12px] font-medium uppercase tracking-[.08em] text-act m:pt-6">{g}</th>{[0, 1, 2].map((k) => <td key={k} className={`${k === 2 ? HL : ''} ${hide(k)}`} />)}</tr>
+            {rows.map((r, ri) => {
+              const last = gi === GROUPS.length - 1 && ri === rows.length - 1;
+              return (
+                <tr key={r[0]}>
+                  <th scope="row" className="border-b border-line py-4 pr-5 text-left font-medium text-ink m:w-[55%]">{r[0]}</th>
+                  {r.slice(1).map((c, k) => <td key={k} className={`border-b border-line px-5 py-4 text-body tabular-nums ${k === 2 ? `${HL} ${last ? 'rounded-b-[20px] border-b-0' : ''}` : ''} ${hide(k)}`}>{cell(c)}</td>)}
+                </tr>
+              );
+            })}
+          </tbody>
+        ))}
       </table>
     </>
   );

@@ -6,9 +6,10 @@ import { ARROW, Btn, Card, Chips, Crumb, Head, PracticeWin, Icon, JsonLd, PH, Qu
 import { btn, card, heroGrid, split, tw } from '@/components/tw';
 import { APP_URL, SITE_URL } from '@/content/site';
 import { COURSE, LEARNER_QUOTES } from '@/content/dummy';
+import { COURSE_LIST } from '@/content/courses';
 
 export const metadata = {
-  title: 'Python for placements: course from basics to coding rounds',
+  title: { absolute: 'Python for Placements: Free Course | CTC' },
   description: `Learn Python from the basics to placement coding problems, with practice after every module. First ${COURSE.freeModules} modules free.`,
   alternates: { canonical: '/courses/python/' },
 };
@@ -30,7 +31,7 @@ export default function Course() {
         <section className={`${tw.hero} ${tw.heroCompact}`}>
           <div className={`${tw.wrap} ${tw.heroWrap} ${heroGrid('75')} ${tw.enter}`}>
             <div data-hide-sticky>
-              <Crumb items={[['Home', '/'], ['Courses', '/courses/python/'], ['Python']]} />
+              <Crumb items={[['Home', '/'], ['Courses', '/courses/'], ['Python']]} />
               <span className={tw.eyebrow}>CTC Skill Track</span>
               <h1 className={`${tw.h1} ${tw.heroH1}`}>Python for placements</h1>
               <p className={`${tw.lead} ${tw.heroLead}`}>Python is easy to read and quick to write, which makes it a good choice for timed coding rounds. Go from basics to placement problems with practice after every module.</p>
@@ -97,7 +98,7 @@ export default function Course() {
           <div className={`${tw.cols} ${tw.c3}`} data-reveal="kids">
             <Card icon="code" title="Python practice set" href={APP_URL} link="Open practice">60 problems, auto-graded</Card>
             <Card icon="monitor" title="Coding mock test" href={APP_URL} link="See mock test">Proctored, 60 minutes, in the desktop app</Card>
-            <Card icon="building" title="Company prep" href="/prep/infosys/" link="Browse companies">Infosys, Wipro and Capgemini</Card>
+            <Card icon="building" title="Company prep" href="/prep/" link="Browse companies">Infosys, Wipro and Capgemini</Card>
           </div>
         </Sec>
 
@@ -114,8 +115,8 @@ export default function Course() {
         <Sec>
           <Head h="Related courses" />
           <div className={`${tw.cols} ${tw.c5} ${tw.hscroll}`} data-reveal="kids">
-            {[['Java', 'Object-oriented foundations many companies ask about.'], ['C++', 'Speed and the standard library for competitive-style problems.'], ['C programming', 'The basics behind pointers, memory and output questions.'], ['JavaScript', 'For web roles and front-end interviews.'], ['Aptitude and logical reasoning', 'Every topic in placement aptitude rounds.']].map(([h, p]) => (
-              <article className={card({ i: true })} key={h}><span className={`${tw.badge} ${tw.bN}`} style={{ alignSelf: 'flex-start', marginBottom: 12 }}>Beginner</span><h3 className={tw.h4}>{h}</h3><p style={{ marginTop: 6 }}>{p}</p><a className={CARD_LINK} href={APP_URL}>Start in the app<Icon name="arrow" /></a></article>
+            {COURSE_LIST.filter((c) => c.slug !== 'python').map((c) => (
+              <article className={card({ i: true })} key={c.slug}><span className={`${tw.badge} ${tw.bN}`} style={{ alignSelf: 'flex-start', marginBottom: 12 }}>Beginner</span><h3 className={tw.h4}>{c.name}</h3><p style={{ marginTop: 6 }}>{c.line}</p><a className={CARD_LINK} href={`/courses/${c.slug}/`}>See {c.name}<Icon name="arrow" /></a></article>
             ))}
           </div>
         </Sec>

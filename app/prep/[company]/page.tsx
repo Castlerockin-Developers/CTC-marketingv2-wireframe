@@ -6,9 +6,9 @@ import Footer from '@/components/Footer';
 import SampleQuiz from '@/components/SampleQuiz';
 import { Faq, StickyCta } from '@/components/interactive';
 import { FaqSec, Main } from '@/components/sections';
-import { Band, Btn, Card, Checks, Chips, Crumb, Head, JsonLd, Micro, Note, Quotes, Sec, DashWin, PracticeWin, Shot } from '@/components/ui';
+import { Band, Btn, Card, Checks, Chips, Crumb, Head, Micro, Note, Quotes, Sec, DashWin, PracticeWin, Shot } from '@/components/ui';
 import { btn, card, heroGrid, split, tw } from '@/components/tw';
-import { APP_URL, COMPANIES, SITE_URL } from '@/content/site';
+import { APP_URL, COMPANIES } from '@/content/site';
 import { INFOSYS, INFOSYS_QUOTES } from '@/content/dummy';
 
 export const dynamicParams = false;
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   const c = find((await params).company);
   if (!c) return {};
   return {
-    title: `${c.name} placement preparation: pattern, syllabus and free sample test`,
+    title: { absolute: c.seoTitle },
     description: `Practise ${c.name}’s campus hiring rounds: a free 10-question sample now, full proctored mocks in the desktop app.`,
     alternates: { canonical: `/prep/${c.slug}/` },
   };
@@ -45,16 +45,11 @@ export default async function CompanyPrep({ params }: P) {
   return (
     <>
       <Header />
-      <JsonLd data={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL + '/' },
-        { '@type': 'ListItem', position: 2, name: 'Company prep', item: SITE_URL + '/prep/infosys/' },
-        { '@type': 'ListItem', position: 3, name, item: `${SITE_URL}/prep/${c.slug}/` },
-      ] }} />
       <Main>
         <section className={`${tw.hero} ${tw.heroCompact}`}>
           <div className={`${tw.wrap} ${tw.heroWrap} ${heroGrid('75')} ${tw.enter}`}>
             <div data-hide-sticky>
-              <Crumb items={[['Home', '/'], ['Company prep', '/prep/infosys/'], [name]]} />
+              <Crumb items={[['Home', '/'], ['Company prep', '/prep/'], [name]]} />
               <span className={tw.eyebrow}>Company prep, updated {INFOSYS.updated}</span>
               <h1 className={`${tw.h1} ${tw.heroH1}`}>{name} placement preparation</h1>
               <p className={`${tw.lead} ${tw.heroLead}`}>Practise the rounds {name} uses in campus hiring: a free 10-question sample now, full proctored mocks in the desktop app.</p>

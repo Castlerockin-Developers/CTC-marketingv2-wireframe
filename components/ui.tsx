@@ -4,9 +4,10 @@ import {
   ArrowRight, BookOpen, Building2, Calendar, Camera, ChartColumn, Check, CircleAlert, CircleCheck, Clock, Code, CreditCard,
   Download, Eye, FileText, Hourglass, Image as ImageIcon, Info, Instagram, Layers, LayoutGrid, Linkedin, Lock, Mail, MapPin,
   MessageCircle, Monitor, Phone, Play, Quote, RefreshCw, Search, Server, ShieldCheck, Sigma, Sparkles, Star, Target, Trophy,
-  User, Users, Youtube, ChevronDown, Menu, X, type LucideIcon,
+  User, Users, Youtube, ChevronDown, Menu, Minus, X, type LucideIcon,
 } from 'lucide-react';
 import type { Quote as Q } from '@/content/dummy';
+import { SITE_URL } from '@/content/site';
 import { btn, card, tw, type BtnKind } from './tw';
 
 const ICONS: Record<string, LucideIcon> = {
@@ -15,7 +16,7 @@ const ICONS: Record<string, LucideIcon> = {
   hourglass: Hourglass, image: ImageIcon, info: Info, instagram: Instagram, layers: Layers, grid: LayoutGrid, linkedin: Linkedin,
   lock: Lock, mail: Mail, pin: MapPin, chat: MessageCircle, monitor: Monitor, phone: Phone, play: Play, quote: Quote,
   refresh: RefreshCw, search: Search, server: Server, shield: ShieldCheck, sigma: Sigma, spark: Sparkles, star: Star,
-  target: Target, trophy: Trophy, user: User, users: Users, youtube: Youtube, down: ChevronDown, menu: Menu, x: X,
+  target: Target, trophy: Trophy, user: User, users: Users, youtube: Youtube, down: ChevronDown, menu: Menu, minus: Minus, x: X,
 };
 
 export function Icon({ name, className }: { name: string; className?: string }) {
@@ -23,8 +24,15 @@ export function Icon({ name, className }: { name: string; className?: string }) 
   return <C className={className} strokeWidth={1.75} aria-hidden="true" />;
 }
 
+/** Primary buttons carry the round arrow chip of the v4 look; small and full-width ones stay plain. */
 export function Btn({ href = '#', kind = 'p', sm, blk, className = '', children }: { href?: string; kind?: BtnKind; sm?: boolean; blk?: boolean; className?: string; children: ReactNode }) {
-  return <Link className={`${btn(kind, { sm, blk })} ${className}`} data-btn={kind} href={href}>{children}</Link>;
+  const chip = kind === 'p' && !sm && !blk;
+  return (
+    <Link className={`group ${btn(kind, { sm, blk, size: chip ? 'min-h-12 gap-3 pl-6 pr-1.5' : undefined })} ${className}`} data-btn={kind} href={href}>
+      {children}
+      {chip && <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-act [&_svg]:h-4 [&_svg]:w-4 [&_svg]:transition-transform [&_svg]:duration-300 group-hover:[&_svg]:translate-x-0.5" aria-hidden="true"><Icon name="arrow" /></span>}
+    </Link>
+  );
 }
 
 export const ARROW = 'font-semibold !no-underline inline-flex items-center gap-1.5 min-h-11 hover:!underline [&_svg]:w-[18px] [&_svg]:h-[18px] [&_svg]:transition-transform [&_svg]:duration-fast [&_svg]:ease-site hover:[&_svg]:translate-x-[3px]';
@@ -94,6 +102,7 @@ export function Avatar({ name, size = 48, className = '' }: { name: string; size
 export function Crumb({ items }: { items: [string, string?][] }) {
   return (
     <nav className="text-[14px] text-tx3 mb-6 m:mb-4" aria-label="Breadcrumb">
+      <JsonLd data={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map(([t, href], k) => ({ '@type': 'ListItem', position: k + 1, name: t, ...(href ? { item: `${SITE_URL}${href}` } : {}) })) }} />
       <ol className="list-none flex gap-2 flex-wrap items-center [&>li+li]:before:content-['/'] [&>li+li]:before:mr-2 [&>li+li]:before:text-l300">{items.map(([t, href], k) => (k < items.length - 1 ? <li key={t}><Link className="!text-tx2 !no-underline hover:!underline" href={href || '/'}>{t}</Link></li> : <li key={t} aria-current="page">{t}</li>))}</ol>
     </nav>
   );
@@ -118,36 +127,41 @@ export function Quotes({ items, scroll = true }: { items: Q[]; scroll?: boolean 
   );
 }
 
+/** Proof row: big numbers left-aligned between hairlines, then partner names as a plain text line. */
 export function Proof({ label, stats, logos }: { label: string; stats: [string, string][]; logos?: string[] }) {
   return (
     <div>
-      <span className="block text-center text-[14px] font-semibold tracking-normal normal-case text-tx3 mb-7">{label}</span>
-      <div className="grid grid-cols-[repeat(4,1fr)] border border-l200 rounded-2xl bg-white m:grid-cols-[1fr_1fr]">{stats.map(([b, s]) => (
-        <div className="p-6 text-center border-l200 [&+&]:border-l m:py-5 m:px-3 m:[&+&]:border-l-0 m:even:!border-l m:[&:nth-child(n+3)]:border-t" data-reveal="" key={s}>
-          <b className="block font-head font-medium text-[30px] leading-[38px] text-tx tracking-[-.01em] tabular-nums m:text-[24px] m:leading-[30px]">{b}</b>
-          <span className="block text-[15px] leading-[22px] text-tx2 mt-1 m:text-[14px] m:leading-5">{s}</span>
+      <span className="mb-8 block font-mono text-[12.5px] font-medium uppercase tracking-[.08em] text-muted">{label}</span>
+      <div className="grid grid-cols-4 border-y border-line-2 m:grid-cols-2">{stats.map(([b, s]) => (
+        <div className="py-8 pr-6 [&+&]:border-l [&+&]:border-line [&+&]:pl-8 m:py-6 m:[&:nth-child(3)]:border-l-0 m:[&:nth-child(3)]:pl-0 m:[&:nth-child(n+3)]:border-t" data-reveal="" key={s}>
+          <b className="block font-head text-[48px] font-extrabold leading-none tracking-[-.03em] text-ink tabular-nums t:text-[40px] m:text-[32px]">{b}</b>
+          <span className="mt-3 block text-[15px] leading-[22px] text-body">{s}</span>
         </div>
       ))}</div>
-      {logos && <div className="grid grid-cols-[repeat(6,1fr)] gap-4 mt-6 m:grid-cols-[repeat(3,1fr)] m:gap-2.5" aria-label="Partner colleges">{logos.map((l) => (
-        <div className="h-16 border border-dashed border-l300 rounded-xl flex items-center justify-center text-center text-[12px] leading-4 text-l700 p-2 bg-white m:h-auto m:min-h-14 m:leading-[14px]" key={l}>{l}</div>
-      ))}</div>}
+      {logos && <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-[15px] font-medium text-muted" aria-label="Partner colleges">{logos.map((l, k) => <span key={l} className="flex items-center gap-3">{k > 0 && <span aria-hidden="true" className="h-1 w-1 rounded-full bg-line-2" />}{l}</span>)}</p>}
     </div>
   );
 }
 
-const BAND_PANEL = "relative rounded-[32px] py-24 px-16 [background:radial-gradient(60%_100%_at_50%_0%,rgba(91,68,227,.35),transparent_70%),#0B0B0F] text-center overflow-hidden [&>*]:relative [&>*]:z-[1] after:content-[''] after:absolute after:inset-0 after:bg-[radial-gradient(rgba(255,255,255,.10)_1px,transparent_1px)] after:bg-[length:22px_22px] after:[mask-image:radial-gradient(circle_at_80%_10%,#000,transparent_60%)] m:rounded-none m:py-14 m:px-5";
-const BAND_P = '!text-[#CFC9E8] max-w-[620px] mt-4 mx-auto text-[18px] leading-7 m:text-[16px] m:leading-[26px]';
-const BAND_LINKS = '[&_a:not([data-btn])]:!text-white [&_a:not([data-btn])]:min-h-11 [&_a:not([data-btn])]:inline-flex [&_a:not([data-btn])]:items-center [&_a:not([data-btn])]:justify-center [&_a:not([data-btn])]:px-2';
-const BAND_BTNS = '[&_[data-btn=p]]:bg-white [&_[data-btn=p]]:!text-ink [&_[data-btn=p]:hover]:bg-alt [&_[data-btn=s]]:bg-transparent [&_[data-btn=s]]:border-[rgba(255,255,255,.45)] [&_[data-btn=s]]:!text-white [&_[data-btn=s]:hover]:bg-[rgba(255,255,255,.08)] [&_[data-btn=s]:hover]:border-white';
+const BAND_LINKS = '[&_a:not([data-btn])]:!text-white [&_a:not([data-btn])]:underline [&_a:not([data-btn])]:underline-offset-4 [&_a:not([data-btn])]:min-h-11 [&_a:not([data-btn])]:inline-flex [&_a:not([data-btn])]:items-center';
+// on the painting the filled button turns white with a violet chip
+const BAND_BTNS = '[&_[data-btn=p]]:bg-white [&_[data-btn=p]]:!text-ink [&_[data-btn=p]:hover]:bg-alt [&_[data-btn=p]_span]:bg-act [&_[data-btn=p]_span]:text-white [&_[data-btn=s]]:bg-[rgba(10,24,70,.32)] [&_[data-btn=s]]:border-white/40 [&_[data-btn=s]]:!text-white [&_[data-btn=s]]:backdrop-blur-md';
+
+/** Closing call to action: the painted dusk scene (same look as the homepage's last section). */
 export function Band({ h, p, cta, cta2, micro, hide = true }: { h: string; p?: string; cta: ReactNode; cta2?: ReactNode; micro?: string; hide?: boolean }) {
   return (
-    <section className="py-sec relative overflow-hidden bg-white m:p-0 [&_:focus-visible]:outline-lav" data-hide-sticky={hide ? '' : undefined}>
-      <div className={`${tw.wrap} m:!px-0`}><div className={BAND_PANEL} data-reveal="">
-        <h2 className={`${tw.h2} !text-white max-w-[760px] mx-auto`}>{h}</h2>
-        {p && <p className={BAND_P}>{p}</p>}
-        <div className={`${tw.ctaRow} justify-center mt-8 m:flex-col m:items-stretch ${BAND_LINKS} ${BAND_BTNS}`}>{cta}{cta2}</div>
-        {micro && <p className={`${MICRO} justify-center mt-4 !text-[#CFC9E8]`}>{micro}</p>}
-      </div></div>
+    <section className="px-4 py-4 m:px-2" data-hide-sticky={hide ? '' : undefined}>
+      <div className="relative isolate flex min-h-[520px] items-center justify-center overflow-hidden rounded-[32px] py-24 m:min-h-[440px] m:rounded-[20px]" data-reveal="">
+        {/* eslint-disable-next-line @next/next/no-img-element -- static export; art is pre-compressed */}
+        <img src="/images/art/rooftop.webp" alt="" data-parallax loading="lazy" decoding="async" className="absolute inset-x-0 -top-[8%] -z-10 h-[116%] w-full object-cover" style={{ objectPosition: '50% 40%' }} />
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(8,12,40,.5),rgba(8,12,40,.3)_50%,rgba(8,12,40,.6))]" />
+        <div className="max-w-[760px] px-6 text-center text-white">
+          <h2 className="font-head text-h1 font-bold tracking-[-.02em] text-white">{h}</h2>
+          {p && <p className="mx-auto mt-5 max-w-[580px] text-[18px] leading-7 text-white/85">{p}</p>}
+          <div className={`${tw.ctaRow} mt-9 justify-center gap-x-6 m:flex-col ${BAND_LINKS} ${BAND_BTNS}`}>{cta}{cta2}</div>
+          {micro && <p className="mt-4 inline-block rounded-full bg-[rgba(10,24,70,.32)] px-3.5 py-1 text-[14px] font-medium text-white backdrop-blur-md">{micro}</p>}
+        </div>
+      </div>
     </section>
   );
 }
@@ -187,6 +201,24 @@ export function PracticeWin({ label = 'Web app, company prep', q = 'A train 240 
         <div className="flex gap-2 mb-3.5 flex-wrap">{tags.map((t, k) => <span className={k ? BADGE_N : BADGE_V} key={t}>{t}</span>)}</div>
         <p className="text-[14px] leading-5 text-ink font-semibold">{q}</p>
         {opts.map((o, k) => <div className={`flex items-center gap-2.5 border rounded-[10px] py-[9px] px-3 mt-2 text-[13px] text-l900 ${k === sel ? 'border-lav bg-tint' : 'border-l200'}`} key={o}><i className={`w-3.5 h-3.5 rounded-full border-[1.5px] flex-none ${k === sel ? 'border-act bg-[radial-gradient(var(--act)_40%,transparent_45%)]' : 'border-l500'}`} />{o}</div>)}
+      </div>
+    </div>
+  );
+}
+
+/** Coding round: a dark editor with a short solution and its test results. */
+export function CodeWin() {
+  const L = [['def', ' reverse_words(s):'], ['    ', 'words = s.split()'], ['    ', 'return " ".join(words[::-1])']];
+  return (
+    <div className="overflow-hidden rounded-2xl bg-[#17161C] text-[13px] text-white/85 shadow-[0_1px_0_rgba(255,255,255,.06)_inset]" data-win="" aria-hidden="true">
+      <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5 text-[12px] text-white/55"><span>Web app, coding · Strings</span><span className="font-mono text-lav">Python 3</span></div>
+      <div className="whitespace-pre px-4 py-4 font-mono leading-6">
+        <p className="text-white/40"># Reverse the order of words in a sentence</p>
+        {L.map(([k, r], i) => <p key={i}><span className="mr-4 inline-block w-3 text-right text-white/25">{i + 1}</span><span className={i ? '' : 'text-lav'}>{k}</span><span className={i === 2 ? 'text-[#F5C98B]' : ''}>{r}</span></p>)}
+      </div>
+      <div className="grid gap-1.5 border-t border-white/10 bg-white/[.03] px-4 py-3 font-mono text-[12px]">
+        {['"hello world"', '"campus drive today"', '"  a  b "'].map((t) => <p key={t} className="flex items-center justify-between"><span className="text-white/60">{t}</span><span className="text-[#7BD99A]">passed</span></p>)}
+        <p className="mt-1 flex items-center justify-between text-white"><span>3 / 3 test cases</span><span className="text-white/50">14:52 left</span></p>
       </div>
     </div>
   );
@@ -245,26 +277,15 @@ export function Composite() {
   );
 }
 
-export function Card({ icon, title, children, href, link, className = '', iconClass = '' }: { icon?: string; title: string; children?: ReactNode; href?: string; link?: string; className?: string; iconClass?: string }) {
+/** Card: optional mono kicker (e.g. "01") instead of a decorative icon; the link sits on the bottom edge so a row of cards lines up. */
+export function Card({ kicker, title, children, href, link, className = '' }: { kicker?: string; icon?: string; title: string; children?: ReactNode; href?: string; link?: string; className?: string; iconClass?: string }) {
   return (
-    <article className={`${card({ i: !!href })} ${className}`}>
-      {icon && <span className={`${tw.ic} ${iconClass}`}><Icon name={icon} /></span>}
+    <article className={`${card({ i: !!href })} flex flex-col ${className}`}>
+      {kicker && <span className="mb-6 flex items-center gap-3 font-mono text-[13px] font-medium tracking-[.06em] text-act after:h-px after:w-8 after:bg-tint2 after:content-['']">{kicker}</span>}
       <h3 className={tw.h3s}>{title}</h3>
       {children && <p>{children}</p>}
-      {href && link && <Link className={`${ARROW} ${tw.stretch} mt-auto pt-3`} href={href}>{link}<Icon name="arrow" /></Link>}
+      {href && link && <Link className={`${ARROW} ${tw.stretch} mt-auto pt-6`} href={href}>{link}<Icon name="arrow" /></Link>}
     </article>
-  );
-}
-
-export function Timeline({ items }: { items: { t: string; p: string; tag?: string }[] }) {
-  return (
-    <ol className="grid grid-cols-[repeat(4,1fr)] gap-6 list-none relative before:content-[''] before:absolute before:top-[22px] before:left-[22px] before:right-[22px] before:h-0.5 before:bg-[linear-gradient(90deg,var(--l400),var(--l200))] m:grid-cols-[1fr] m:gap-0 m:before:bottom-[22px] m:before:left-[21px] m:before:right-auto m:before:w-0.5 m:before:h-auto">
-      {items.map((s, k) => (
-        <li className="relative m:grid m:grid-cols-[44px_1fr] m:gap-x-4 m:gap-y-0 m:pb-7 m:last:pb-0" key={s.t}><span className="w-11 h-11 rounded-full bg-act text-white font-mono font-medium flex items-center justify-center relative z-[1] mb-5 shadow-[0_0_0_6px_var(--bg)] m:m-0 m:row-[1/3]">{String(k + 1).padStart(2, '0')}</span>
-          <div><h3 className={`${tw.h4} mb-1.5`}>{s.t} {s.tag && <span className={BADGE_N} style={{ marginLeft: 6 }}>{s.tag}</span>}</h3><p className="text-[15px] leading-6">{s.p}</p></div>
-        </li>
-      ))}
-    </ol>
   );
 }
 

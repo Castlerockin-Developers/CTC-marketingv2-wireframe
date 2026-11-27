@@ -9,9 +9,10 @@ const FAQ_BTN = 'group w-full flex gap-4 justify-between items-center text-left 
 // +/- icon: two bars drawn with ::before/::after; the vertical one rotates flat when open
 const FAQ_PM = "flex-none w-9 h-9 rounded-full border border-l500 relative transition-[transform,background] duration-med ease-site m:w-8 m:h-8 group-aria-expanded:bg-act group-aria-expanded:border-act group-aria-expanded:text-white before:content-[''] before:absolute before:left-1/2 before:top-1/2 before:w-3.5 before:h-0.5 before:-mt-px before:-ml-[7px] before:bg-current before:rounded-sm before:transition-transform before:duration-med before:ease-site after:content-[''] after:absolute after:left-1/2 after:top-1/2 after:w-3.5 after:h-0.5 after:-mt-px after:-ml-[7px] after:bg-current after:rounded-sm after:transition-transform after:duration-med after:ease-site after:rotate-90 group-aria-expanded:after:rotate-0";
 export function Faq({ items, openFirst = true }: { items: (FaqT | [ReactNode, string, ReactNode?])[]; openFirst?: boolean }) {
-  const [open, setOpen] = useState<Set<number>>(new Set(openFirst ? [0] : []));
+  const [openK, setOpenK] = useState<number | null>(openFirst ? 0 : null); // one item open at a time
   const id = useId();
-  const toggle = (k: number) => setOpen((s) => { const n = new Set(s); if (n.has(k)) n.delete(k); else n.add(k); return n; });
+  const toggle = (k: number) => setOpenK((o) => (o === k ? null : k));
+  const open = { has: (k: number) => openK === k };
   return (
     <div className="border-t border-l200" data-reveal="">
       {items.map((q, k) => (
@@ -73,6 +74,22 @@ export function Countdown({ iso, seconds = false, label }: { iso: string; second
   );
 }
 
+/* ---------- Form delivery: Web3Forms emails each submission to the team inbox (static site, no server) ---------- */
+const FORM_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || '';
+export async function sendForm(subject: string, data: Record<string, string>): Promise<boolean> {
+  // next.config.mjs blocks production builds without a key, so this branch only runs in local dev
+  if (!FORM_KEY) { console.info(`[form] ${subject} (not sent: NEXT_PUBLIC_WEB3FORMS_KEY is unset)`, data); return true; }
+  try {
+    const r = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ access_key: FORM_KEY, subject: `Website: ${subject}`, from_name: 'crackthecampus.com', page: location.pathname, ...data }),
+    });
+    return (await r.json()).success === true;
+  } catch { return false; }
+}
+/** Hidden honeypot field: humans never see or fill it; Web3Forms drops submissions that tick it. */
+export const Honeypot = () => <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />;
+
 /* ---------- Form fields + validation (mock: no network, success state only) ---------- */
 export type FieldDef = { name: string; label: string; type?: 'text' | 'email' | 'tel' | 'select' | 'textarea'; ph?: string; help?: string; err?: string; req?: 'text' | 'email' | 'phone'; options?: string[]; full?: boolean; optional?: boolean; ac?: string };
 
@@ -106,14 +123,15 @@ export function Field({ f, value, bad, onChange, onBlur }: { f: FieldDef; value:
   );
 }
 
-export function MockForm({ fields, submit, className = '', grid = true, children, success, btnClass = btn('p', { blk: true }), note }: {
-  fields: FieldDef[]; submit: string; className?: string; grid?: boolean; children?: ReactNode; btnClass?: string; note?: ReactNode;
+export function LeadForm({ fields, submit, subject, next, className = '', grid = true, children, success, btnClass = btn('p', { blk: true }), note }: {
+  fields: FieldDef[]; submit: string; /** email subject, e.g. 'College demo request' */ subject: string; /** thank-you page to open after a successful send */ next?: string; className?: string; grid?: boolean; children?: ReactNode; btnClass?: string; note?: ReactNode;
   /** `{field}` tokens are filled from the submitted values, e.g. 'Thanks, {name}.' ({name} = first word). */
   success: { title: string; body: string };
 }) {
   const [vals, setVals] = useState<Record<string, string>>({});
   const [bad, setBad] = useState<Set<string>>(new Set());
   const [done, setDone] = useState(false);
+  const [state, setState] = useState<'idle' | 'sending' | 'error'>('idle');
   const formRef = useRef<HTMLFormElement>(null);
   const okRef = useRef<HTMLDivElement>(null);
   const check = (f: FieldDef, v = vals[f.name] || '') => {
@@ -121,11 +139,15 @@ export function MockForm({ fields, submit, className = '', grid = true, children
     setBad((s) => { const n = new Set(s); if (ok) n.delete(f.name); else n.add(f.name); return n; });
     return ok;
   };
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const failed = fields.filter((f) => !check(f));
     if (failed.length) { formRef.current?.querySelector<HTMLElement>(`[name="${failed[0].name}"]`)?.focus(); return; }
-    // shortcut: mock submit, no request is sent. Wire to the backend before launch.
+    if ((formRef.current?.elements.namedItem('botcheck') as HTMLInputElement | null)?.checked) return; // bot: drop quietly
+    setState('sending');
+    const data = Object.fromEntries(fields.map((f) => [f.label, (vals[f.name] || '').trim()]));
+    if (!(await sendForm(subject, data))) { setState('error'); return; }
+    if (next) { location.assign(next); return; }
     setDone(true);
     setTimeout(() => okRef.current?.focus(), 0);
   };
@@ -140,7 +162,9 @@ export function MockForm({ fields, submit, className = '', grid = true, children
               onBlur={() => { if (vals[f.name] || bad.has(f.name)) check(f); }} />
           ))}
         </div>
-        <div style={{ marginTop: 24 }}><button className={btnClass} data-btn="p" type="submit">{submit}</button></div>
+        <Honeypot />
+        <div style={{ marginTop: 24 }}><button className={btnClass} data-btn="p" type="submit" disabled={state === 'sending'}>{state === 'sending' ? 'Sending…' : submit}</button></div>
+        {state === 'error' && <p className="mt-3 flex items-start gap-1.5 text-[14px] font-medium text-[#B42318] [&_svg]:mt-0.5 [&_svg]:h-4 [&_svg]:w-4" role="alert"><Icon name="alert" />Something went wrong on our side. Please try again in a minute, or email us.</p>}
         {note}
       </form>
       <div className={`text-center py-6 px-2 ${done ? 'block animate-pop' : 'hidden'}`} role="status" tabIndex={-1} ref={okRef}>

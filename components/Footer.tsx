@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Icon } from './ui';
 import { btn, INP, tw } from './tw';
-import { FooterCol } from './interactive';
-import { LogoMark, Wordmark } from './Logo';
+import { FooterCol, Honeypot, sendForm } from './interactive';
+import { BrandLogo } from './Logo';
 import { ADDRESS_LONG, EMAIL, FOOTER_COLS, SOCIAL, SUPPORT } from '@/content/site';
 import { HOURS, PHONE, WHATSAPP } from '@/content/dummy';
 
@@ -12,14 +12,18 @@ function Newsletter() {
   const [v, setV] = useState('');
   const [bad, setBad] = useState(false);
   const [done, setDone] = useState(false);
+  const [err, setErr] = useState(false);
   if (done) return <p className="text-[13.5px] text-[#067647] flex gap-1.5 items-center" role="status"><Icon name="checkc" />You’re in. Look out for our next email on Monday.</p>;
   return (
-    <form noValidate onSubmit={(e) => {
+    <form noValidate onSubmit={async (e) => {
       e.preventDefault();
       const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
       setBad(!ok);
-      if (ok) setDone(true); // shortcut: mock subscribe, no request sent
+      if (!ok || (e.currentTarget.elements.namedItem('botcheck') as HTMLInputElement | null)?.checked) return;
+      const sent = await sendForm('Newsletter sign-up', { Email: v.trim() });
+      setErr(!sent); setDone(sent);
     }}>
+      <Honeypot />
       <div className="flex flex-col gap-1.5">
         <label className={tw.sr} htmlFor="nl-email">Email</label>
         <div className="flex gap-2">
@@ -27,6 +31,7 @@ function Newsletter() {
           <button className={btn('s', { sm: true })} data-btn="s" type="submit">Subscribe</button>
         </div>
         <span className={`text-[13.5px] leading-[18px] text-[#B42318] gap-1.5 items-start font-medium [&_svg]:w-4 [&_svg]:h-4 [&_svg]:flex-none [&_svg]:mt-px ${bad ? 'flex' : 'hidden'}`} id="nl-err" role="alert"><Icon name="alert" />Enter a valid email address, like name@gmail.com.</span>
+        {err && <span className="text-[13.5px] font-medium text-[#B42318]" role="alert">Couldn’t subscribe right now. Please try again in a minute.</span>}
       </div>
     </form>
   );
@@ -45,7 +50,7 @@ export default function Footer({ disclaim }: { disclaim?: string }) {
           </div>
           <div className="grid grid-cols-[4fr_8fr] gap-16 pb-12 border-b !border-l200 m:grid-cols-[1fr] m:gap-8 m:pb-2 m:border-b-0">
             <div>
-              <Link className={`${tw.logo} mr-4 m:mr-auto`} href="/" aria-label="Crack The Campus home"><LogoMark /><Wordmark /></Link>
+              <Link className={`${tw.logo} mr-4 m:mr-auto`} href="/" aria-label="Crack The Campus home"><BrandLogo /></Link>
               <p className="mt-4 mb-6 max-w-[340px] text-l900">Placement prep, proctored mock tests and the CTC Score for engineering students and colleges in India.</p>
               <div className="[&_p]:mt-1.5 [&_p]:mb-3.5 [&_p]:text-[14px] [&_p]:leading-[22px]">
                 <p className="font-head font-bold text-l950 !text-[18px]">Get drive alerts and new guides</p>

@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import { CompareTable, PricingPlans } from '@/components/Pricing';
 import { FaqSec, Main } from '@/components/sections';
 import { Band, Btn, Head, Icon, JsonLd, Sec } from '@/components/ui';
-import { btn, card, split, tw } from '@/components/tw';
+import { btn, split, tw } from '@/components/tw';
 import { APP_URL, SITE_URL } from '@/content/site';
 
 export const metadata = {
@@ -32,7 +32,13 @@ export default function Pricing() {
           </div>
         </section>
 
-        <Sec className={tw.light}><Head h="Compare plans" /><CompareTable /></Sec>
+        <Sec className={tw.light}><Head h="Compare plans" /><CompareTable />
+          <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[15px] text-muted" data-reveal="">
+            <span>Pay with UPI, cards or net banking. Colleges can pay by bank transfer.</span>
+            <span>Change plans any time, from your next billing cycle.</span>
+            <Link href="/refund-policy/">Refund &amp; cancellation policy</Link>
+          </p>
+        </Sec>
 
         <Sec>
           <div className={`${split()}`} data-reveal="split" style={{ alignItems: 'start' }}>
@@ -44,13 +50,6 @@ export default function Pricing() {
           </div>
         </Sec>
 
-        <Sec className={tw.light}>
-          <div className={`${tw.cols} ${tw.c3}`} data-reveal="kids">
-            <div className={card()}><span className={tw.ic}><Icon name="lock" /></span><h3 className={tw.h3s}>Secure payments</h3><p>Pay with UPI, cards or net banking. Colleges can pay by bank transfer.</p></div>
-            <div className={card()}><span className={tw.ic}><Icon name="refresh" /></span><h3 className={tw.h3s}>Change plans any time</h3><p>Upgrade or downgrade whenever you like; changes apply from your next billing cycle.</p></div>
-            <div className={card()}><span className={tw.ic}><Icon name="card" /></span><h3 className={tw.h3s}>Refunds</h3><p>Read our <Link href="/refund-policy/">Refund &amp; cancellation policy</Link>.</p></div>
-          </div>
-        </Sec>
 
         <FaqSec h="Pricing questions" intro={false} items={[
           ['Can I switch between plans?', 'Yes. You can upgrade or downgrade at any time, and the change applies from your next billing cycle.'],

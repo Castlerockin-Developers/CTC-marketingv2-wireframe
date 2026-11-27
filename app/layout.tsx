@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Inter_Tight, JetBrains_Mono } from 'next/font/google';
+import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { SITE_URL, EMAIL } from '@/content/site';
 import { JsonLd } from '@/components/ui';
 import Motion from '@/components/Motion';
 import { SITE } from '@/components/tw';
 
-const head = Inter_Tight({ subsets: ['latin'], weight: ['500', '600'], variable: '--font-head', display: 'swap' });
+const head = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['600', '700', '800'], variable: '--font-head', display: 'swap' });
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap', preload: false }); // scores and timers only, so not preloaded
 

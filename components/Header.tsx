@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Icon } from './ui';
 import { btn, SITE, tw } from './tw';
-import { LogoMark, Wordmark } from './Logo';
+import { BrandLogo } from './Logo';
 import { APP_URL, LOGIN_URL, COLLEGE_NAV, EMAIL, RESOURCE_NAV, STUDENT_NAV, type NavItem } from '@/content/site';
 import { PHONE } from '@/content/dummy';
 
@@ -87,7 +87,7 @@ export default function Header({ sub, progress }: { sub?: Sub; progress?: boolea
       <a className="absolute left-4 -top-[60px] z-[100] bg-act !text-white py-2.5 px-4 rounded-[10px] font-semibold !no-underline focus:top-3" href="#main">Skip to content</a>
       <header className={`sticky top-0 z-40 bg-[rgba(255,255,255,.8)] [backdrop-filter:saturate(1.8)_blur(20px)] border-b [transition:border-color_var(--t-med),box-shadow_var(--t-med)] ${scrolled ? 'border-b-line' : 'border-transparent'}`}>
         <div className={`${tw.wrap} flex items-center gap-2 h-[72px] m:h-16`}>
-          <Link className={`${tw.logo} mr-4 m:mr-auto`} href="/" aria-label="Crack The Campus home"><LogoMark /><Wordmark /></Link>
+          <Link className={`${tw.logo} mr-4 m:mr-auto`} href="/" aria-label="Crack The Campus home"><BrandLogo /></Link>
           <nav className="flex items-center gap-0.5 m:hidden" aria-label="Main" ref={navRef}>
             {navBtn('For students', 'stu', STUDENT_NAV)}
             {navBtn('For colleges', 'col', COLLEGE_NAV, '', (
@@ -148,7 +148,7 @@ function MobileMenu({ isCol, onClose }: { isCol: boolean; onClose: () => void })
         <div className={`${tw.scrim} ${shown ? 'opacity-100' : 'opacity-0'}`} onClick={onClose} />
         <div className={`absolute top-0 right-0 bottom-0 w-full bg-white flex flex-col transition-transform duration-med ease-site ${shown ? '[transform:none]' : 'translate-x-full'}`} role="dialog" aria-modal="true" aria-label="Menu" ref={ref}>
           <div className="flex items-center justify-between h-16 px-5 border-b border-l200">
-            <span className={tw.logo} style={{ margin: 0 }}><LogoMark /><Wordmark /></span>
+            <span className={tw.logo} style={{ margin: 0 }}><BrandLogo /></span>
             <button className={tw.iconBtn} type="button" aria-label="Close menu" onClick={onClose}><Icon name="x" /></button>
           </div>
           <div className="flex-1 overflow-auto p-5 overscroll-contain">

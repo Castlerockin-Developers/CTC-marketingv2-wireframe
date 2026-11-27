@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { ArrowLink, Sec } from './ui';
+import { ArrowLink, JsonLd, Sec } from './ui';
 import { tw } from './tw';
 import { Faq } from './interactive';
 import { SUPPORT, type Faq as FaqT } from '@/content/site';
@@ -8,6 +8,7 @@ import { REPLY_TIME } from '@/content/dummy';
 export function FaqSec({ h, items, intro = true, link, id = 'faq' }: { h: string; items: FaqT[]; intro?: boolean; link?: [string, string]; id?: string }) {
   return (
     <Sec className={tw.light} id={id}>
+      <JsonLd data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: items.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }} />
       <div className={tw.faqWrap}>
         <div>
           <h2 className={tw.h2}>{h}</h2>

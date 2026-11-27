@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FaqSec, Main } from '@/components/sections';
-import { ArrowLink, Band, Btn, Frame, Head, Icon, Proof, Quotes, Sec } from '@/components/ui';
+import { ArrowLink, Band, Btn, Frame, Head, Proof, Quotes, Sec } from '@/components/ui';
 import { btn, card, heroGrid, split, tw } from '@/components/tw';
 import { ADDRESS_LONG, APP_URL } from '@/content/site';
 import { PRESS, STATS, STUDENT_QUOTES, TEAM } from '@/content/dummy';
@@ -48,8 +48,8 @@ export default function About() {
         <Sec>
           <Head h="What we believe" />
           <div className={`${tw.cols} ${tw.c3}`} data-reveal="kids">
-            {[['Practise in real conditions.', 'Knowing the answer isn’t enough. You need to find it under a timer, on camera, without help.', 'clock'], ['Proof over promises.', 'We’d rather show you a score you can improve than promise you a job.', 'target'], ['Fair for every college.', 'A student from any college should be able to practise the same way as one from the best-known campus.', 'users']].map(([h, p, ic]) => (
-              <div className={card()} key={h}><span className={tw.ic}><Icon name={ic} /></span><h3 className={tw.h3s}>{h}</h3><p>{p}</p></div>
+            {[['Practise in real conditions.', 'Knowing the answer isn’t enough. You need to find it under a timer, on camera, without help.', 'clock'], ['Proof over promises.', 'We’d rather show you a score you can improve than promise you a job.', 'target'], ['Fair for every college.', 'A student from any college should be able to practise the same way as one from the best-known campus.', 'users']].map(([h, p]) => (
+              <div className={card()} key={h}><h3 className={tw.h3s}>{h}</h3><p>{p}</p></div>
             ))}
           </div>
         </Sec>

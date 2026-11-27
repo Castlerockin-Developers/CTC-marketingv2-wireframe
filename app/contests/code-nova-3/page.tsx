@@ -2,19 +2,19 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Countdown, StickyCta } from '@/components/interactive';
 import { FaqSec, Main } from '@/components/sections';
-import { Band, Btn, Crumb, Frame, Head, Icon, JsonLd, Micro, Sec, Timeline } from '@/components/ui';
+import { Steps } from '@/components/blocks';
+import { Band, Btn, Crumb, Frame, Head, Icon, JsonLd, Micro, Sec } from '@/components/ui';
 import { btn, heroGrid, split, tw } from '@/components/tw';
 import { APP_URL, DOWNLOAD_URL, SITE_URL } from '@/content/site';
 import { CONTEST } from '@/content/dummy';
 
 export const metadata = {
-  title: 'Code Nova 3: free monthly coding contest for engineering students',
+  title: { absolute: 'Code Nova 3: Free Coding Contest for Students | CTC' },
   description: `Code Nova 3 on ${CONTEST.date}, ${CONTEST.time} IST. Compete with students from other colleges and win prizes. Free to enter.`,
   alternates: { canonical: '/contests/code-nova-3/' },
 };
 
 const ICS = '/code-nova-3.ics';
-const TIER: Record<string, string> = { t1: 'border-l400 bg-[linear-gradient(160deg,var(--l100),#fff_60%)]', t2: 'border-l300 bg-[linear-gradient(160deg,var(--l50),#fff_60%)]', '': 'border-l200' };
 const LB = 'w-full border-collapse text-[15px] [&_th]:text-[13px] [&_th]:font-semibold [&_th]:tracking-normal [&_th]:normal-case [&_th]:text-tx3 [&_th]:text-left [&_th]:py-3 [&_th]:px-4 [&_th]:border-b [&_th]:border-l300 [&_td]:p-4 [&_td]:border-b [&_td]:border-l200 [&_td]:text-tx2 [&_td]:tabular-nums [&_td:first-child]:font-mono [&_td:first-child]:text-l700 [&_td:first-child]:text-[16px] m:[&_th]:py-3 m:[&_th]:px-2.5 m:[&_td]:py-3 m:[&_td]:px-2.5';
 const cal = <a className={`${btn('g')}`} data-btn="g" href={ICS} download><Icon name="cal" />Add to calendar</a>;
 
@@ -44,9 +44,9 @@ export default function Contest() {
 
         <Sec className={tw.light}>
           <Head h="Contest details" />
-          <dl className="grid grid-cols-[repeat(5,1fr)] gap-4 t:grid-cols-[repeat(3,1fr)] m:grid-cols-[1fr_1fr] m:gap-2.5">
+          <dl className="grid grid-cols-5 overflow-hidden rounded-[24px] border border-line bg-white t:grid-cols-3 m:grid-cols-1" data-reveal="">
             {[['Format', CONTEST.format], ['Duration', CONTEST.duration], ['Eligibility', CONTEST.eligibility], ['Languages', CONTEST.languages], ['Where', 'Crack The Campus desktop app']].map(([k, v]) => (
-              <div className="bg-white border border-l200 rounded-xl p-5 m:p-4 m:[&:last-child:nth-child(odd)]:col-[1/-1]" key={k}><dt className="text-[13px] font-semibold tracking-normal normal-case text-tx3 mb-2">{k}</dt><dd className="text-tx font-semibold text-[16px] leading-6">{v}</dd></div>
+              <div className="border-line p-7 [&+&]:border-l t:[&:nth-child(4)]:border-l-0 t:[&:nth-child(n+4)]:border-t m:!border-l-0 m:p-5 m:[&+&]:border-t" key={k}><dt className="font-mono text-[12px] font-medium uppercase tracking-[.08em] text-muted">{k}</dt><dd className="mt-3 text-[17px] font-semibold leading-[26px] text-ink">{v}</dd></div>
             ))}
           </dl>
         </Sec>
@@ -54,21 +54,27 @@ export default function Contest() {
         <Sec>
           <Head h="Prizes" />
           <div className={`${tw.cols} ${tw.c3}`} data-reveal="kids">
-            {[['t1', 'Elite tier', CONTEST.eliteRanks, 'Premium tech hardware or course scholarships.', 'trophy', 'gold'], ['t2', 'Growth tier', CONTEST.growthRanks, 'Exclusive access to premium hiring events.', 'spark', ''], ['', 'Participation', 'Everyone who finishes', 'Recognition on your CTC Score profile.', 'star', '']].map(([t, h, r, p, ic, c]) => (
-              <div className={`rounded-2xl p-7 border bg-white relative overflow-hidden ${TIER[t]}`} key={h}><span className={`${tw.ic} ${c ? tw.icGold : ''}`}><Icon name={ic} /></span><h3 className={tw.h3s}>{h}</h3><p className={tw.cap} style={{ margin: '2px 0 10px' }}>{r}</p><p className={tw.sm}>{p}</p></div>
-            ))}
+            {[['Elite tier', CONTEST.eliteRanks, 'Premium tech hardware or course scholarships.'], ['Growth tier', CONTEST.growthRanks, 'Exclusive access to premium hiring events.'], ['Participation', 'Everyone who finishes', 'Recognition on your CTC Score profile.']].map(([h, r, p], k) => {
+              const ranks = r.startsWith('Ranks ') ? r.slice(6) : '';
+              return (
+                <div className={`relative flex flex-col overflow-hidden rounded-[24px] p-8 ${k === 0 ? 'bg-[#211A4A] text-white' : k === 1 ? 'border border-tint2 bg-tint' : 'border border-line bg-white'}`} key={h}>
+                  {k === 0 && <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(162,148,249,.45),transparent_65%)]" />}
+                  <p className={`relative font-mono text-[12px] font-medium uppercase tracking-[.08em] ${k === 0 ? 'text-lav' : 'text-muted'}`}>{h}</p>
+                  <p className={`relative mt-4 font-head font-extrabold leading-none tracking-[-.03em] ${ranks ? 'text-[64px] m:text-[52px]' : 'text-[30px] leading-9'} ${k === 0 ? 'text-white' : 'text-ink'}`}>{ranks || r}</p>
+                  {ranks && <p className={`relative mt-2 text-[14px] ${k === 0 ? 'text-white/60' : 'text-muted'}`}>Ranks</p>}
+                  <p className={`relative mt-auto pt-8 text-[17px] leading-7 ${k === 0 ? 'text-white/85' : 'text-body'}`}>{p}</p>
+                </div>
+              );
+            })}
           </div>
         </Sec>
 
-        <Sec className={tw.light}>
-          <Head h="Before and on contest day" />
-          <Timeline items={[
-            { t: 'Register', p: `Register before ${CONTEST.deadline}.` },
-            { t: 'Install and check', p: 'Download the desktop app and run the system check.' },
-            { t: 'Contest day', p: `${CONTEST.date}, ${CONTEST.time} IST. Log in 15 minutes early.` },
-            { t: 'Results', p: `Leaderboard and rewards on ${CONTEST.results}.` },
-          ]} />
-        </Sec>
+        <Steps alt h="Before and on contest day" items={[
+          ['Register', `Register before ${CONTEST.deadline}.`],
+          ['Install and check', 'Download the desktop app and run the system check.'],
+          ['Contest day', `${CONTEST.date}, ${CONTEST.time} IST. Log in 15 minutes early.`],
+          ['Results', `Leaderboard and rewards on ${CONTEST.results}.`],
+        ]} />
 
         <Sec>
           <div className={`${split()}`} data-reveal="split" style={{ alignItems: 'start' }}>
@@ -87,8 +93,8 @@ export default function Contest() {
           <Head h="Last contest results" p={`${CONTEST.lastName}, top 3`} />
           <div className={tw.tablebox}>
             <table className={LB}><caption className={tw.sr}>Top 3 results of the last contest</caption>
-              <thead><tr><th scope="col">Rank</th><th scope="col">Participant</th><th scope="col">College</th><th scope="col">Points</th></tr></thead>
-              <tbody>{CONTEST.lastResults.map((r) => <tr key={r[0]}><td>{r[0]}</td><td style={{ color: 'var(--tx)', fontWeight: 600 }}>{r[1]}</td><td>{r[2]}</td><td className="font-mono !text-tx">{r[3]}</td></tr>)}</tbody>
+              <thead><tr><th scope="col">Rank</th><th scope="col">Participant</th><th scope="col">College</th><th scope="col" className="!text-right">Points</th></tr></thead>
+              <tbody>{CONTEST.lastResults.map((r) => <tr key={r[0]} className={r[0] === '1' ? 'bg-tint/60' : ''}><td><span className={`inline-flex h-8 w-8 items-center justify-center rounded-full font-mono text-[13px] font-medium ${r[0] === '1' ? 'bg-act text-white' : 'bg-alt text-ink'}`}>{r[0]}</span></td><td className="font-semibold !text-ink">{r[1]}</td><td>{r[2]}</td><td className="text-right font-mono !text-ink">{Number(r[3]).toFixed(1)}</td></tr>)}</tbody>
             </table>
           </div>
         </Sec>

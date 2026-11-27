@@ -8,14 +8,19 @@ import { useGSAP } from '@gsap/react';
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 const calm = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const CELL = 'absolute inset-0 flex items-center justify-center px-6';
-function Logo({ c, alt }: { c: { slug: string; logoH: number }; alt: string }) {
+type Co = { slug: string; name: string; logoH: number };
+
+/** Company logo SVG at its tuned optical height. */
+export function Logo({ c, alt = '', className = '' }: { c: { slug: string; logoH: number }; alt?: string; className?: string }) {
   // eslint-disable-next-line @next/next/no-img-element -- static export; SVGs are tiny and scale themselves
-  return <img src={`/images/logos/${c.slug}.svg`} alt={alt} style={{ height: c.logoH }} className="w-auto max-w-full transition-transform duration-500 ease-snap group-hover:scale-105 m:scale-90" decoding="async" />;
+  return <img src={`/images/logos/${c.slug}.svg`} alt={alt} style={{ height: c.logoH }} className={`w-auto max-w-full ${className}`} decoding="async" />;
 }
 
-/* ---------- Company grid whose cells roll to the next set every few seconds (Rocketlane's logo wall) ---------- */
-export function CompanySwap({ items, cells = 4, every = 3200 }: { items: { slug: string; name: string; logoH: number }[]; cells?: number; every?: number }) {
+const CELL = 'absolute inset-0 flex items-center justify-center px-6';
+const CELL_LOGO = 'transition-transform duration-500 ease-snap group-hover:scale-105 m:scale-90';
+
+/* ---------- Company logo grid whose cells roll to the next set every few seconds ---------- */
+export function CompanySwap({ items, cells = 4, every = 3200 }: { items: Co[]; cells?: number; every?: number }) {
   const [k, setK] = useState(0);
   const root = useRef<HTMLDivElement>(null);
   const at = (set: number, i: number) => items[(set * cells + i) % items.length];
@@ -40,13 +45,13 @@ export function CompanySwap({ items, cells = 4, every = 3200 }: { items: { slug:
   }, { dependencies: [k], scope: root });
 
   return (
-    <div ref={root} className="grid grid-cols-4 border-l border-t border-line m:grid-cols-2">
+    <div ref={root} className="grid grid-cols-4 border-l border-t border-line bg-white m:grid-cols-2">
       {Array.from({ length: cells }, (_, i) => {
         const cur = at(k, i), prev = k ? at(k - 1, i) : null;
         return (
           <Link key={i} href={`/prep/${cur.slug}/`} className="group relative h-[112px] overflow-hidden border-b border-r border-line !no-underline transition-colors duration-300 hover:bg-alt m:h-[88px]">
-            {prev && <span data-prev aria-hidden="true" className={CELL}><Logo c={prev} alt="" /></span>}
-            <span data-cur className={CELL}><Logo c={cur} alt={`${cur.name} test prep`} /></span>
+            {prev && <span data-prev aria-hidden="true" className={CELL}><Logo c={prev} className={CELL_LOGO} /></span>}
+            <span data-cur className={CELL}><Logo c={cur} alt={`${cur.name} test prep`} className={CELL_LOGO} /></span>
           </Link>
         );
       })}
@@ -72,36 +77,39 @@ export function FeatureTabs({ tabs, ms = 6000 }: { tabs: Tab[]; ms?: number }) {
   }, []);
 
   return (
-    <div ref={root} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={() => setPaused(false)}>
+    <div ref={root} className="grid grid-cols-[5fr_7fr] items-center gap-14 t:grid-cols-1 t:gap-8"
+      onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={() => setPaused(false)}>
+      <div role="tablist" aria-label="Features" aria-orientation="vertical" className="flex flex-col">
+        {tabs.map((t, i) => (
+          <button key={t.title} id={`${id}-t${i}`} role="tab" type="button" aria-selected={i === cur} aria-controls={`${id}-p${i}`} onClick={() => setCur(i)}
+            className={`relative flex cursor-pointer flex-col items-start justify-start border-l-2 border-line bg-transparent py-5 pl-6 text-left transition-opacity duration-300 ${i === cur ? '' : 'opacity-55 hover:opacity-100'}`}>
+            {i === cur && <span key={cur} className="absolute -left-[2px] top-0 h-full w-[2px] origin-top bg-act" style={run ? { animation: `tab-fill-y ${ms}ms linear both`, animationPlayState: paused ? 'paused' : 'running' } : undefined}
+              onAnimationEnd={() => setCur((c) => (c + 1) % tabs.length)} />}
+            <span className="block font-head text-[19px] font-bold leading-7 text-ink">{t.title}</span>
+            {/* body opens like an accordion under the active tab */}
+            <span className={`grid transition-[grid-template-rows] duration-500 ease-snap ${i === cur ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+              <span className="overflow-hidden"><span className="block pt-2 text-[15px] leading-6 text-body">{t.body}</span></span>
+            </span>
+          </button>
+        ))}
+      </div>
       <div className="relative overflow-hidden rounded-[24px] bg-[radial-gradient(90%_120%_at_0%_0%,#DCD5FF_0%,transparent_55%),radial-gradient(80%_110%_at_100%_100%,#BFE3FF_0%,transparent_60%),linear-gradient(135deg,#EEF0FF,#F4F8FF)]">
-        <div className="grid aspect-[16/9] t:aspect-[4/3] m:aspect-auto m:min-h-[380px]">
+        <div className="grid aspect-[4/3] t:aspect-[16/10] m:aspect-auto m:min-h-[320px]">
           {tabs.map((t, i) => (
             <div key={t.title} id={`${id}-p${i}`} role="tabpanel" aria-labelledby={`${id}-t${i}`}
-              className={`[grid-area:1/1] flex items-center justify-center p-12 transition-[opacity,transform,filter] duration-700 ease-snap m:p-5 ${i === cur ? 'opacity-100 scale-100 blur-0' : 'pointer-events-none opacity-0 scale-[.98] blur-[6px]'}`}
+              className={`[grid-area:1/1] flex items-center justify-center p-10 transition-[opacity,transform,filter] duration-700 ease-snap m:p-5 ${i === cur ? 'opacity-100 scale-100 blur-0' : 'pointer-events-none opacity-0 scale-[.98] blur-[6px]'}`}
               inert={i !== cur}>
-              <div className="w-full max-w-[520px] drop-shadow-[0_24px_48px_rgba(29,29,31,.14)]">{t.visual}</div>
+              <div className="w-full max-w-[440px] drop-shadow-[0_24px_48px_rgba(29,29,31,.14)]">{t.visual}</div>
             </div>
           ))}
         </div>
-      </div>
-      <div role="tablist" aria-label="Features" className="mt-8 grid grid-cols-3 gap-6 m:grid-cols-1 m:gap-0">
-        {tabs.map((t, i) => (
-          <button key={t.title} id={`${id}-t${i}`} role="tab" type="button" aria-selected={i === cur} aria-controls={`${id}-p${i}`} onClick={() => setCur(i)}
-            className={`group relative cursor-pointer bg-transparent pt-5 text-left transition-colors duration-300 m:pb-4 ${i === cur ? '' : 'opacity-60 hover:opacity-100'}`}>
-            <span className="absolute inset-x-0 top-0 h-px bg-line" />
-            {i === cur && <span key={cur} className="absolute inset-x-0 top-0 h-[2px] origin-left bg-ink" style={run ? { animation: `tab-fill ${ms}ms linear both`, animationPlayState: paused ? 'paused' : 'running' } : undefined}
-              onAnimationEnd={() => setCur((c) => (c + 1) % tabs.length)} />}
-            <span className="block font-head text-[17px] font-medium leading-6 text-ink">{t.title}</span>
-            <span className={`mt-2 block text-[15px] leading-6 text-body ${i === cur ? '' : 'm:hidden'}`}>{t.body}</span>
-          </button>
-        ))}
       </div>
     </div>
   );
 }
 
-/* ---------- Sticky chapter rail: which part of the story you are in, and how far through it ---------- */
-export function ChapterRail({ items }: { items: [string, string][] }) {
+/* ---------- Journey bar: sticky under the header across the three chapters, filling as you read each ---------- */
+export function JourneyBar({ items }: { items: [string, string][] }) {
   const root = useRef<HTMLElement>(null);
   useGSAP(() => {
     items.forEach(([, id], i) => {
@@ -110,20 +118,20 @@ export function ChapterRail({ items }: { items: [string, string][] }) {
       const sec = document.getElementById(id);
       if (!fill || !sec || !link) return;
       ScrollTrigger.create({
-        trigger: sec, start: 'top 50%', end: 'bottom 50%',
+        trigger: sec, start: 'top 60%', end: 'bottom 60%',
         onUpdate: (s) => { fill.style.transform = `scaleX(${s.progress})`; },
         onToggle: (s) => link.toggleAttribute('data-on', s.isActive),
       });
     });
   }, { scope: root });
   return (
-    <nav ref={root} aria-label="On this page" className="sticky top-28 t:hidden">
-      <ol className="list-none">
-        {items.map(([t, id]) => (
-          <li key={id} className="mb-5">
-            <a href={`#${id}`} className="group block pb-2 text-[12px] font-medium uppercase leading-4 tracking-[.06em] text-muted !no-underline transition-colors hover:text-ink data-[on]:text-ink">
-              {t}
-              <span className="relative mt-2 block h-px bg-line"><span data-fill className="absolute inset-0 origin-left scale-x-0 bg-ink" /></span>
+    <nav ref={root} aria-label="How it works" className="sticky top-[72px] z-30 border-b border-line bg-white/85 backdrop-blur-xl m:top-16">
+      <ol className="mx-auto flex max-w-[calc(1200px+var(--mar)*2)] list-none gap-8 px-mar m:gap-4">
+        {items.map(([t, id], i) => (
+          <li key={id} className="flex-1">
+            <a href={`#${id}`} className="group block pt-3.5 text-[14px] font-medium leading-5 text-muted !no-underline transition-colors hover:text-ink data-[on]:text-ink m:text-[13px]">
+              <span className="mr-2 font-mono text-[12px] text-act m:hidden">0{i + 1}</span>{t}
+              <span className="relative mt-3 block h-[2px] bg-transparent"><span data-fill className="absolute inset-0 origin-left scale-x-0 bg-act" /></span>
             </a>
           </li>
         ))}

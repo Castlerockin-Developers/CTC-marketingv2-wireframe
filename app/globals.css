@@ -10,7 +10,7 @@
   --ink:#1D1D1F; --body:#424245; --muted:#6E6E73;
   --act:#5B44E3; --act-h:#4A35C9; --act-p:#3E2BAE; --link-c:#4F3BD6;
   --lav:#A294F9; --lav-h:#BCB2FA;
-  --alt:#F5F5F7; --tint:#F1EEFE; --tint2:#E6E1FD; --line:#E8E8ED; --line2:#D2D2D7; --line-ui:#86868B;
+  --alt:#FAF8F3; --tint:#F1EEFE; --tint2:#E6E1FD; --line:#ECE8E1; --line2:#D8D3CA; --line-ui:#8A857C; /* warm 'exam paper' neutrals */
   --l50:var(--alt); --l100:var(--tint); --l200:var(--line); --l300:var(--line2); --l400:var(--lav);
   --l500:var(--line-ui); --l700:var(--muted); --l800:var(--act-h); --l900:var(--body); --l950:var(--ink);
   --p300:var(--act); --p600:var(--lav); --p700:var(--lav);
@@ -18,7 +18,7 @@
   --bg:#FFFFFF; --s1:#FFFFFF; --s2:var(--alt); --bd:var(--line); --bd2:var(--line2);
   --tx:var(--ink); --tx2:var(--body); --tx3:var(--muted);
   --link:var(--link-c); --eyebrow:var(--muted); --focus:var(--act); --ph:var(--alt); --ph2:#EBEBF0;
-  --f-head:var(--font-head),'Inter Tight',system-ui,sans-serif;
+  --f-head:var(--font-head),'Plus Jakarta Sans',system-ui,sans-serif;
   --f-body:var(--font-inter),'Inter',system-ui,sans-serif;
   --f-mono:var(--font-mono),'JetBrains Mono',ui-monospace,monospace;
   --sh-1:0 1px 2px rgba(0,0,0,.04),0 2px 8px rgba(0,0,0,.04);
@@ -59,7 +59,7 @@
 /* Blur headings wait (hidden) for Motion.tsx to split them; reduced-motion users never hide them, and no-JS shows them after 2.5s.
    Pure CSS on purpose: an inline <head> script got swapped for an extension's injected <script> during hydration. */
 @media (prefers-reduced-motion:no-preference) {
-  [data-blur]:not(.is-split) { visibility:hidden; animation:show-anyway 0s 2.5s forwards } /* safety net if JS never runs */
+  :is([data-blur], main h1, main h2):not(article *, form *, .is-split) { visibility:hidden; animation:show-anyway 0s 2.5s forwards } /* safety net if JS never runs */
 }
 @keyframes show-anyway { to { visibility:visible } }
 
@@ -79,4 +79,4 @@ html.lenis, html.lenis body { height:auto }
   .site *, .site *::before, .site *::after, .layer * { transition-duration:1ms !important; animation-duration:1ms !important; scroll-behavior:auto !important }
 }
 
-@keyframes tab-fill { from { transform:scaleX(0) } to { transform:scaleX(1) } }
+@keyframes tab-fill-y { from { transform:scaleY(0) } to { transform:scaleY(1) } }

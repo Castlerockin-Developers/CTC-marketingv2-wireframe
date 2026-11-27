@@ -35,7 +35,8 @@ export default function Motion() {
     const mm = gsap.matchMedia();
     mm.add('(prefers-reduced-motion: no-preference)', () => {
       // Signature: headings resolve word by word out of a blur.
-      gsap.utils.toArray<HTMLElement>('[data-blur]').forEach((el) => {
+      // every page heading gets it, except inside article text and forms (same selector as globals.css)
+      gsap.utils.toArray<HTMLElement>('[data-blur], main h1, main h2').filter((el) => !el.closest('article, form')).forEach((el) => {
         const split = SplitText.create(el, { type: 'words', aria: 'auto' });
         el.classList.add('is-split');
         gsap.from(split.words, {

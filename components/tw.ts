@@ -8,11 +8,11 @@ export const SITE = 'm-0 font-body text-copy text-tx2 bg-bg antialiased [text-re
 
 export const tw = {
   // type
-  display: `${head} font-medium text-display tracking-[-.025em]`,
-  h1: `${head} font-medium text-h1 tracking-[-.025em]`,
-  h2: `${head} font-medium text-h2 tracking-[-.02em]`,
-  h3: `${head} font-medium text-h3 tracking-[-.015em]`,
-  h3s: `${head} font-medium text-h3s tracking-[-.01em]`,
+  display: `${head} font-extrabold text-display tracking-[-.02em]`,
+  h1: `${head} font-extrabold text-h1 tracking-[-.02em]`,
+  h2: `${head} font-bold text-h2 tracking-[-.015em]`,
+  h3: `${head} font-bold text-h3 tracking-[-.01em]`,
+  h3s: `${head} font-bold text-h3s tracking-[-.01em]`,
   h4: 'font-body text-h4 font-semibold text-tx',
   lead: 'text-lead text-tx2 text-pretty',
   sm: 'text-sm',
@@ -27,7 +27,7 @@ export const tw = {
   scrim: 'absolute inset-0 bg-[rgba(28,22,65,.4)] transition-opacity duration-med',
   seg: 'p-1 rounded-[14px] bg-l50 border border-l200 gap-1 m:w-full',
   segBtn: 'min-h-11 px-5 rounded-[10px] bg-transparent text-l900 font-semibold text-[15px] cursor-pointer whitespace-nowrap hover:text-tx aria-pressed:bg-act aria-pressed:text-white aria-pressed:shadow-1 m:flex-1 m:px-2 m:text-[14px]',
-  logo: 'inline-flex items-center gap-2.5 !no-underline !text-l950 font-head font-semibold text-[18px] tracking-[-.01em] min-h-11 whitespace-nowrap [&_svg]:w-[34px] [&_svg]:h-[34px] [&_svg]:flex-none m:text-[16px]',
+  logo: 'inline-flex items-center min-h-11 !no-underline',
 
   // layout
   wrap: 'max-w-[calc(1200px+var(--mar)*2)] mx-auto px-mar',
@@ -121,10 +121,10 @@ export const card = (o: { i?: boolean; lg?: boolean } = {}) =>
 
 export type BtnKind = 'p' | 's' | 'g';
 const BTN = {
-  base: 'inline-flex items-center justify-center gap-2 rounded-full font-body font-medium text-[16px] leading-6 border-[1.5px] border-transparent !no-underline cursor-pointer whitespace-nowrap [transition:background-color_160ms_var(--ease-out),border-color_160ms_var(--ease-out),color_160ms,transform_160ms_var(--ease-out),box-shadow_160ms] active:scale-[.97] [&_svg]:w-[18px] [&_svg]:h-[18px] focus-visible:outline-offset-[3px] focus-visible:rounded-full disabled:!bg-tint disabled:!text-muted disabled:!border-transparent disabled:!shadow-none disabled:cursor-not-allowed disabled:!transform-none',
-  p: 'bg-act !text-white hover:bg-act-h active:bg-act-p',
-  s: 'bg-white border-line-2 !text-ink hover:border-ink active:bg-alt',
-  g: 'bg-transparent !text-linkc hover:!underline',
+  base: 'inline-flex items-center justify-center gap-2 rounded-full font-body font-medium text-[16px] leading-6 border-[1.5px] !no-underline cursor-pointer whitespace-nowrap [transition:background-color_160ms_var(--ease-out),border-color_160ms_var(--ease-out),color_160ms,transform_160ms_var(--ease-out),box-shadow_160ms] active:scale-[.97] [&_svg]:w-[18px] [&_svg]:h-[18px] focus-visible:outline-offset-[3px] focus-visible:rounded-full disabled:!bg-tint disabled:!text-muted disabled:!border-transparent disabled:!shadow-none disabled:cursor-not-allowed disabled:!transform-none',
+  p: 'bg-act border-transparent !text-white hover:bg-act-h active:bg-act-p',
+  s: 'bg-white border-line-2 !text-ink hover:border-ink hover:bg-alt active:bg-alt',
+  g: 'bg-transparent border-transparent !text-linkc hover:!underline',
   size: { p: 'min-h-12 px-6 m:min-h-[52px]', s: 'min-h-12 px-6 m:min-h-[52px]', g: 'min-h-11 px-2.5 m:min-h-[52px]' },
   sm: 'min-h-11 px-[18px] !text-[15px]',
 };
@@ -132,7 +132,7 @@ const BTN = {
 export const btn = (kind: BtnKind = 'p', o: { sm?: boolean; blk?: boolean; size?: string } = {}) =>
   `${BTN.base} ${BTN[kind]} ${o.size ?? (o.sm ? BTN.sm : BTN.size[kind])}${o.blk ? ' w-full' : ''}`;
 
-/** form card around a MockForm; on alt-tinted sections use FORM_CARD_ON_ALT */
+/** form card around a LeadForm; on alt-tinted sections use FORM_CARD_ON_ALT */
 const FORM_CARD_BASE = 'bg-white border border-line rounded-[24px] p-8 m:py-6 m:px-5 [&_h3]:mb-1.5 [&_h2]:mb-1.5';
 export const FORM_CARD = `${FORM_CARD_BASE} shadow-[0_24px_60px_rgba(0,0,0,.08)]`;
 export const FORM_CARD_ON_ALT = `${FORM_CARD_BASE} shadow-[0_24px_60px_rgba(0,0,0,.06)]`;

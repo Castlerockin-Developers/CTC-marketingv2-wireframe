@@ -12,13 +12,13 @@ const FEATURED = { title: 'How to prepare for campus placement: a step-by-step p
 const Cover = ({ g }: { g: Guide }) => <Frame className="!border-0 !rounded-none" src={`/images/guides/${g.slug}.jpg`} alt={g.alt} ratio="16/9" />;
 
 export function PostCard({ g }: { g: Guide }) {
-  // shortcut: only the featured guide is written; the rest are listed as "Coming soon" until their articles exist.
+  // written guides link to their article; `planned` ones show "Coming soon" until they're written
   return (
-    <article className={`${tw.card} ${tw.cardBd} p-0 overflow-hidden`}>
+    <article className={`${tw.card} ${g.planned ? tw.cardBd : tw.cardI} p-0 overflow-hidden`}>
       <Cover g={g} />
       <div className="pt-5 px-6 pb-6 flex flex-col gap-2.5 flex-1">
-        <div className={tw.row} style={{ gap: 8 }}><span className={`${tw.badge} ${tw.bV}`}>{g.cat}</span><span className={`${tw.badge} ${tw.bWarn}`}>Coming soon</span></div>
-        <h3 className="font-head text-[20px] leading-7 text-tx !mb-0">{g.title}</h3><p>{g.summary}</p>
+        <div className={tw.row} style={{ gap: 8 }}><span className={`${tw.badge} ${tw.bV}`}>{g.cat}</span>{g.planned && <span className={`${tw.badge} ${tw.bWarn}`}>Coming soon</span>}</div>
+        <h3 className="font-head text-[20px] leading-7 text-tx !mb-0">{g.planned ? g.title : <Link className={`!text-tx !no-underline ${tw.stretch}`} href={`/guides/${g.slug}/`}>{g.title}</Link>}</h3><p>{g.summary}</p>
         <p className="!text-[13.5px] !text-tx3 mt-auto">{AUTHOR.name}, {g.read}</p>
       </div>
     </article>

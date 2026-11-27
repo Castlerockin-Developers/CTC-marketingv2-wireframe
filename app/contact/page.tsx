@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { MockForm, type FieldDef } from '@/components/interactive';
+import { LeadForm, type FieldDef } from '@/components/interactive';
 import { FaqSec, Main } from '@/components/sections';
 import { ARROW, ArrowLink, Frame, Head, Icon, Sec } from '@/components/ui';
 import { btn, card, FORM_CARD_ON_ALT, FORM_NOTE, FSUB, split, tw } from '@/components/tw';
@@ -45,8 +45,8 @@ export default function Contact() {
         <Sec className={tw.light} style={{ padding: '56px 0' }}>
           <h2 className={tw.sr}>Who to contact</h2>
           <div className={`${tw.cols} ${tw.c3}`} data-reveal="kids">
-            {[['Students', 'Account, payments, tests and the desktop app.', SUPPORT, `mailto:${SUPPORT}`, 'user'], ['Colleges', 'Demos, licences and rollout.', 'Book a demo', '/colleges/#demo', 'building'], ['Partnerships and press', 'Partnerships, institutions and press.', EMAIL, `mailto:${EMAIL}`, 'mail']].map(([h, p, l, href, ic]) => (
-              <article className={card({ i: true })} key={h}><span className={tw.ic}><Icon name={ic} /></span><h3 className={tw.h3s}>{h}</h3><p>{p}</p>
+            {[['Students', 'Account, payments, tests and the desktop app.', SUPPORT, `mailto:${SUPPORT}`, 'user'], ['Colleges', 'Demos, licences and rollout.', 'Book a demo', '/colleges/#demo', 'building'], ['Partnerships and press', 'Partnerships, institutions and press.', EMAIL, `mailto:${EMAIL}`, 'mail']].map(([h, p, l, href]) => (
+              <article className={card({ i: true })} key={h}><h3 className={tw.h3s}>{h}</h3><p>{p}</p>
                 {href.startsWith('/') ? <Link className={CARD_LINK} href={href}>{l}<Icon name="arrow" /></Link> : <a className={CARD_LINK} href={href}>{l}<Icon name="arrow" /></a>}</article>
             ))}
           </div>
@@ -54,12 +54,12 @@ export default function Contact() {
 
         <Sec className={tw.light}>
           <div className={`${split('75')}`} data-reveal="split" style={{ alignItems: 'start' }}>
-            <MockForm className={FORM_CARD_ON_ALT} fields={FIELDS} submit="Send message" btnClass={btn('p')}
+            <LeadForm next="/contact/thank-you/" subject="Contact message" className={FORM_CARD_ON_ALT} fields={FIELDS} submit="Send message" btnClass={btn('p')}
               note={<p className={FORM_NOTE}><Icon name="lock" /><span>We use your details only to reply. See our <Link href="/privacy/">Privacy policy</Link>.</span></p>}
               success={{ title: 'Message sent', body: `We’ll reply to {email} within ${REPLY_TIME}.` }}>
               <h2 className={tw.h2} style={{ fontSize: 'var(--fs-h3)', lineHeight: 'var(--lh-h3)' }}>Send us a message</h2>
               <p className={FSUB}>All fields are required unless marked optional.</p>
-            </MockForm>
+            </LeadForm>
             <aside>
               <ul className="list-none grid gap-0 border border-l200 rounded-2xl bg-white [&>li]:flex [&>li]:gap-3.5 [&>li]:py-[18px] [&>li]:px-5 [&>li]:items-start [&>li+li]:border-t [&>li+li]:border-l200 [&_b]:block [&_b]:text-tx [&_b]:text-[14px] [&_svg]:w-5 [&_svg]:h-5 [&_svg]:text-act [&_svg]:mt-0.5 [&_svg]:flex-none">
                 <li><Icon name="mail" /><span><b>Email</b><a href={`mailto:${EMAIL}`}>{EMAIL}</a></span></li>
@@ -81,8 +81,8 @@ export default function Contact() {
         <Sec className={tw.light} id="help">
           <Head h="Find an answer now" />
           <div className={`${tw.cols} ${tw.c3}`} data-reveal="kids">
-            {[['Student FAQ', 'info', 'Free plan, CTC Score, desktop app and proctoring', 'Read the student FAQ', '/#faq'], ['Billing FAQ', 'card', 'Plans, payments and refunds', 'Read the billing FAQ', '/pricing/#faq'], ['Install help', 'dl', 'Download the desktop app for Windows, macOS or Linux', 'Go to downloads', DOWNLOAD_URL]].map(([h, ic, p, l, href]) => (
-              <article className={card({ i: true })} key={h}><span className={tw.ic}><Icon name={ic} /></span><h3 className={tw.h3s}>{h}</h3><p>{p}</p><a className={CARD_LINK} href={href}>{l}<Icon name="arrow" /></a></article>
+            {[['Student FAQ', 'info', 'Free plan, CTC Score, desktop app and proctoring', 'Read the student FAQ', '/faq/'], ['Billing FAQ', 'card', 'Plans, payments and refunds', 'Read the billing FAQ', '/faq/#billing'], ['Install help', 'dl', 'Download the desktop app for Windows, macOS or Linux', 'Go to downloads', DOWNLOAD_URL]].map(([h, , p, l, href]) => (
+              <article className={card({ i: true })} key={h}><h3 className={tw.h3s}>{h}</h3><p>{p}</p><a className={CARD_LINK} href={href}>{l}<Icon name="arrow" /></a></article>
             ))}
           </div>
         </Sec>

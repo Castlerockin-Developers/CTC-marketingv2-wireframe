@@ -13,6 +13,7 @@ npm run lint && npm run typecheck
 1. Import the `marketing-site-v2` folder as a Vercel project (framework: Next.js; `vercel.json` sets build and install commands).
 2. Set environment variables (see `.env.example`):
    - `NEXT_PUBLIC_APP_URL` (**required in production**, the build fails without it): base URL of the web app (ctc-wapp). Log in goes to `<APP_URL>/login`; Start free, Get Pro and Register go to `<APP_URL>`.
+   - `NEXT_PUBLIC_WEB3FORMS_KEY` (**required in production**): access key from web3forms.com. The contact form, college demo form and newsletter email each submission to the inbox the key belongs to. Without it, local dev logs submissions to the console instead.
    - `NEXT_PUBLIC_SITE_URL`: canonical domain, defaults to `https://crackthecampus.com`.
    - `NEXT_PUBLIC_LINKEDIN_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`, `NEXT_PUBLIC_YOUTUBE_URL` (optional): the footer shows social links only when these are set.
 3. Add the domain. `vercel.json` sends security headers (HSTS, CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy) and long-cache headers for `/_next/static`.
