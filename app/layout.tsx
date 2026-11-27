@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
+import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { SITE_URL, EMAIL } from '@/content/site';
 import { JsonLd } from '@/components/ui';
 import Motion from '@/components/Motion';
+import { SITE } from '@/components/tw';
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-jakarta', display: 'swap' });
+const head = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['600', '700', '800'], variable: '--font-head', display: 'swap' });
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap', preload: false }); // scores and timers only, so not preloaded
 
@@ -23,11 +24,12 @@ export const viewport: Viewport = { themeColor: '#FFFFFF' };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${jakarta.variable} ${inter.variable} ${mono.variable}`}>
-      <body className="site">
+    <html lang="en-IN" className={`${head.variable} ${inter.variable} ${mono.variable}`}>
+      <body className={`site ${SITE}`}>
         <JsonLd data={{ '@context': 'https://schema.org', '@type': 'Organization', name: 'Crack The Campus', url: SITE_URL, email: EMAIL, logo: `${SITE_URL}/icon.svg`,
           address: { '@type': 'PostalAddress', streetAddress: 'Ground Floor, ThiDiff Tech Park, Singasandra', addressLocality: 'Bengaluru', addressRegion: 'Karnataka', postalCode: '560068', addressCountry: 'IN' } }} />
         {children}
+        <div className="edge-blur" aria-hidden="true" />
         <Motion />
       </body>
     </html>

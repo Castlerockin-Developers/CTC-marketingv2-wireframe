@@ -104,4 +104,5 @@ export const PRESS = [
   { outlet: 'The Hindu', headline: 'How students are preparing for game-based aptitude tests', date: 'Feb 2026' },
 ];
 
-export const AUTHOR = { name: 'Vikram Bhat', role: 'Head of Content', reviewer: 'Arjun Prakash, Co-founder', updated: '18 Nov 2026', bio: 'Vikram has coached 4,000+ students through campus placements and leads the Prep Deck research at Crack The Campus.' };
+/** photo: path under public/ once a real headshot exists (e.g. '/images/team/vikram.jpg'). */
+export const AUTHOR: { name: string; role: string; reviewer: string; updated: string; bio: string; photo?: string } = { name: 'Vikram Bhat', role: 'Head of Content', reviewer: 'Arjun Prakash, Co-founder', updated: '18 Nov 2026', bio: 'Vikram has coached 4,000+ students through campus placements and leads the Prep Deck research at Crack The Campus.' };

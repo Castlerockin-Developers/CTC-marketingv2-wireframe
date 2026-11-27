@@ -5,6 +5,7 @@ import { ExitIntent, PostCard, Toc } from '@/components/Guides';
 import { StickyCta } from '@/components/interactive';
 import { Main } from '@/components/sections';
 import { Band, Btn, Crumb, Frame, Head, Icon, JsonLd, Sec } from '@/components/ui';
+import { tw } from '@/components/tw';
 import { GUIDES, POST_SLUG, SITE_URL } from '@/content/site';
 import { AUTHOR } from '@/content/dummy';
 
@@ -12,17 +13,28 @@ const TITLE = 'How to prepare for campus placement: a step-by-step plan';
 const DESC = 'A step-by-step plan for campus placements: aptitude, coding, company tests, resume and interviews, by year of study.';
 const URL = `${SITE_URL}/guides/${POST_SLUG}/`;
 
-export const metadata = { title: TITLE, description: DESC, alternates: { canonical: `/guides/${POST_SLUG}/` }, openGraph: { type: 'article', title: TITLE, description: DESC } };
+export const metadata = { title: { absolute: 'How to Prepare for Campus Placement (2026 Guide)' }, description: DESC, alternates: { canonical: `/guides/${POST_SLUG}/` }, openGraph: { type: 'article', title: TITLE, description: DESC } };
 
 const TOC: [string, string][] = [
   ['how', 'How campus placement works'], ['when', 'When should you start preparing?'], ['s1', 'Step 1: Build your aptitude base'],
   ['s2', 'Step 2: Get comfortable with coding'], ['s3', 'Step 3: Prepare for the companies visiting your campus'], ['s4', 'Step 4: Practise in real test conditions'],
   ['s5', 'Step 5: Build a resume that gets you shortlisted'], ['s6', 'Step 6: Prepare for technical and HR interviews'], ['d30', 'How to prepare in 30 days'],
-  ['mist', 'Common mistakes to avoid'], ['start', 'Start today, not next semester'],
+  ['mist', 'Common mistakes to avoid'], ['start', 'Start today, not next semester'], ['faq', 'Campus placement questions'],
 ];
 
+const FAQ: [string, string][] = [
+          ['When should I start preparing for campus placements?', 'Ideally in your pre-final year (3rd year for B.E./B.Tech). Start aptitude and one programming language 6 to 9 months before the first drive, then add company-pattern mocks in the last 8 to 10 weeks.'],
+          ['How many hours a day should I practise?', 'One focused hour on weekdays and two on weekends is enough for most students. Consistency beats long weekend sessions: a 30-minute timed aptitude set every day moves your score more than one 5-hour sitting.'],
+          ['Which programming language is best for placements?', 'Use the language you already know best. Python, Java and C++ are all accepted by mass recruiters. What matters is solving placement-style problems quickly and explaining your code.'],
+          ['Is aptitude more important than coding for service companies?', 'For mass recruiters like Infosys, Wipro and Capgemini, the aptitude and reasoning rounds filter out most candidates, so treat them as equally important. Product companies weigh coding more heavily.'],
+          ['Do I need a perfect CGPA?', 'No. Most companies set a cut-off (often 6.0 to 7.0 with no active backlogs). Once you clear it, your test performance, projects and interview matter far more than the exact number.'],
+          ['How do I practise for proctored online tests?', 'Take at least two full-length mocks with your camera on, a fixed timer and no switching tabs. The Crack The Campus desktop app runs mocks under the same conditions, so the real test feels familiar.'],
+];
+
+const AUTHOR_PHOTO = 'w-[200px] h-[200px] rounded-2xl object-cover bg-tint flex items-center justify-center text-act [&_svg]:w-12 [&_svg]:h-12 m:w-[120px] m:h-[120px]';
+
 const CtaBox = () => (
-  <aside className="ctabox" data-hide-sticky="">
+  <aside className="rounded-2xl p-7 bg-tint border border-tint2 text-l900 !my-10 m:py-[22px] m:px-5 [&_h3]:text-l950 [&_h3]:font-head [&_h3]:text-[22px] [&_h3]:leading-[30px] [&_p]:mt-1.5 [&_p]:mb-[18px] [&_p]:text-[16px] [&_p]:leading-6 m:[&_[data-btn]]:w-full" data-hide-sticky="">
     <h3>See where you stand in 15 minutes.</h3>
     <p>Take a free 10-question company sample. No sign-up needed to start.</p>
     <Btn href="/prep/infosys/#sample">Start a free sample test</Btn>
@@ -36,27 +48,25 @@ export default function Post() {
       <JsonLd data={[
         { '@context': 'https://schema.org', '@type': 'Article', headline: TITLE, description: DESC, mainEntityOfPage: URL, dateModified: '2026-11-18',
           author: { '@type': 'Person', name: AUTHOR.name, jobTitle: AUTHOR.role }, publisher: { '@type': 'Organization', name: 'Crack The Campus', logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.svg` } } },
-        { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL + '/' }, { '@type': 'ListItem', position: 2, name: 'Guides', item: SITE_URL + '/guides/' }, { '@type': 'ListItem', position: 3, name: TITLE, item: URL }] },
       ]} />
       <Main>
-        <section className="hero compact" style={{ paddingBottom: 48 }}>
-          <div className="wrap"><div className="article-hd" data-enter>
+        <section className={`${tw.hero} ${tw.heroCompact}`} style={{ paddingBottom: 48 }}>
+          <div className={`${tw.wrap} ${tw.heroWrap}`}><div className={`${tw.articleHd} ${tw.enter}`}>
             <div>
               <Crumb items={[['Home', '/'], ['Guides', '/guides/'], ['Company guides']]} />
-              <div className="row" style={{ gap: 8 }}><span className="badge b-v">Company guides</span><span className="badge b-n">Assessments</span></div>
-              <h1 className="h1" style={{ marginTop: 16 }}>{TITLE}</h1>
-              <p className="lead" style={{ marginTop: 16 }}>{DESC}</p>
-              <div className="post-meta"><span><b style={{ color: 'var(--tx)' }}>{AUTHOR.name}</b>, {AUTHOR.role}</span><span>Updated {AUTHOR.updated}</span><span>8 min read</span></div>
+              <div className={tw.row} style={{ gap: 8 }}><span className={`${tw.badge} ${tw.bV}`}>Company guides</span><span className={`${tw.badge} ${tw.bN}`}>Assessments</span></div>
+              <h1 className={`${tw.h1} ${tw.heroH1}`} style={{ marginTop: 16 }}>{TITLE}</h1>
+              <p className={`${tw.lead} ${tw.heroLead}`} style={{ marginTop: 16 }}>{DESC}</p>
+              <div className="flex gap-3 items-center flex-wrap text-[14.5px] text-tx3 mt-5"><span><b style={{ color: 'var(--tx)' }}>{AUTHOR.name}</b>, {AUTHOR.role}</span><span>Updated {AUTHOR.updated}</span><span>8 min read</span></div>
             </div>
-            <Frame alt="Engineering student planning placement preparation with a laptop and a weekly checklist" ratio="16/9" />
+            <Frame className="mt-10" src="/images/guides/how-to-prepare-for-campus-placement.jpg" eager alt="Study desk with a laptop showing a timed aptitude test and a handwritten weekly placement checklist" ratio="16/9" />
           </div></div>
         </section>
 
-        <section className="sec light" style={{ paddingTop: 64 }}><div className="wrap"><div className="art">
+        <section className={`${tw.sec} ${tw.light}`} style={{ paddingTop: 64 }}><div className={tw.wrap}><div className="grid grid-cols-[240px_minmax(0,680px)] gap-16 justify-center m:grid-cols-[1fr] m:gap-0">
           <Toc items={TOC} />
-          <article className="prose" id="article">
-            <details className="toc-m"><summary>On this page <Icon name="down" /></summary><ol>{TOC.map(([id, t]) => <li key={id}><a href={`#${id}`}>{t}</a></li>)}</ol></details>
+          <article className={tw.prose} id="article">
+            <details className="hidden m:block m:border m:border-l200 m:rounded-xl m:bg-white m:mb-8"><summary className="m:min-h-[52px] m:flex m:items-center m:justify-between m:px-4 m:font-semibold m:text-tx m:cursor-pointer m:list-none m:[&::-webkit-details-marker]:hidden">On this page <Icon name="down" /></summary><ol className="m:list-none m:!pt-0 m:!px-2 m:!pb-2">{TOC.map(([id, t]) => <li key={id}><a className="m:flex m:items-center m:min-h-11 m:px-2 m:!text-tx2 m:!no-underline m:text-[15px]" href={`#${id}`}>{t}</a></li>)}</ol></details>
             <p>Campus placements can feel like one giant, scary event. In reality, they’re a sequence of fairly predictable steps: an online test, one or two interviews and an offer. Once you know the sequence, you can prepare for each step on purpose instead of panicking about all of them at once.</p>
             <p>This guide walks you through the whole process: what happens in a typical drive, what to practise for each round, and a simple plan whether you have a year or a month.</p>
 
@@ -131,9 +141,9 @@ export default function Post() {
 
             <h2 id="d30">How to prepare for placements in 30 days</h2>
             <p>If drives are close, here is a focused plan:</p>
-            <div className="tablebox"><table className="dtable"><caption className="sr">30-day placement plan</caption><tbody>
+            <div className={tw.tablebox}><table className={tw.dtable}><caption className={tw.sr}>30-day placement plan</caption><tbody>
               {[['Days 1–3', 'Take one full mock in your first target company’s pattern. List your three weakest topics.'], ['Days 4–14', 'Daily: 40 minutes on one weak aptitude topic, 30 minutes of coding or pseudocode, 10 minutes of verbal.'], ['Days 15–21', 'Company-specific section practice for your top two recruiters. One full timed mock every three days.'], ['Days 22–27', 'Two proctored mocks a week. Fix your resume. Practise interview answers aloud.'], ['Days 28–30', 'Light revision, rest and a final system check if your test is online.']].map(([d, t]) => (
-                <tr key={d}><th scope="row" className="mono" style={{ color: 'var(--act-h)' }}>{d}</th><td>{t}</td></tr>
+                <tr key={d}><th scope="row" className={tw.mono} style={{ color: 'var(--act-h)' }}>{d}</th><td>{t}</td></tr>
               ))}
             </tbody></table></div>
 
@@ -150,20 +160,43 @@ export default function Post() {
             <p>You don’t need a perfect plan to begin, only a first step. Take a free sample test for the company you’re most likely to face, see where you stand, and build from there.</p>
             <CtaBox />
 
-            <div className="author">
-              <div>
-                <p className="cap" style={{ fontWeight: 600 }}>Written by</p>
-                <p className="h4">{AUTHOR.name}, {AUTHOR.role}</p>
-                <p className="body-sm" style={{ marginTop: 6 }}>{AUTHOR.bio}</p>
-                <p className="cap" style={{ marginTop: 8 }}>Reviewed by {AUTHOR.reviewer}. Updated {AUTHOR.updated}.</p>
+            <section id="faq" aria-labelledby="faq-h">
+              <h2 id="faq-h">Campus placement questions</h2>
+              <div className="mt-6 border-t border-bd">
+                {FAQ.map(([q, a]) => (
+                  <details key={q} className="group border-b border-bd">
+                    <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-1 py-5 text-lg font-semibold text-tx hover:text-link [&::-webkit-details-marker]:hidden">
+                      {q}
+                      <span aria-hidden className="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-bd2 text-xl leading-none transition-transform group-open:rotate-45 group-open:border-p700 group-open:bg-p700 group-open:text-white">+</span>
+                    </summary>
+                    <p className="!mt-0 pb-6 pl-1 pr-14 text-base leading-[26px] text-tx2">{a}</p>
+                  </details>
+                ))}
               </div>
-            </div>
+              <p className="mt-6"><Link href="/contact/">Ask us anything</Link></p>
+            </section>
+
+            <section className="block border border-l200 rounded-[20px] p-8 bg-white m:py-6 m:px-5" aria-labelledby="about-author">
+              <h2 className={`${tw.h3} pb-5 mb-7 border-b border-line`} id="about-author">About the author</h2>
+              <div className="grid grid-cols-[200px_1fr] gap-8 items-center m:grid-cols-[1fr] m:gap-5">
+                {AUTHOR.photo
+                  // eslint-disable-next-line @next/next/no-img-element -- static export, photo pre-sized
+                  ? <img className={AUTHOR_PHOTO} src={AUTHOR.photo} alt={`${AUTHOR.name}, ${AUTHOR.role} at Crack The Campus`} width={200} height={200} loading="lazy" />
+                  : <span className={AUTHOR_PHOTO} role="img" aria-label={`Photo of ${AUTHOR.name} coming soon`}><Icon name="user" /></span>}
+                <div>
+                  <p className="text-[15px] text-muted">{AUTHOR.role}</p>
+                  <p className="font-head font-bold text-[26px] leading-[1.25] tracking-[-.015em] text-ink">{AUTHOR.name}</p>
+                  <p className="text-[17px] leading-[1.6] text-body max-w-[60ch]">{AUTHOR.bio}</p>
+                  <p className={tw.cap} style={{ marginTop: 12 }}>Reviewed by {AUTHOR.reviewer}. Updated {AUTHOR.updated}.</p>
+                </div>
+              </div>
+            </section>
           </article>
         </div></div></section>
 
         <Sec>
           <Head h="Related guides" />
-          <div className="cols c3 hscroll">{GUIDES.slice(0, 3).map((g) => <PostCard key={g.slug} g={g} />)}</div>
+          <div className={`${tw.cols} ${tw.c3} ${tw.hscroll}`} data-reveal="kids">{GUIDES.slice(0, 3).map((g) => <PostCard key={g.slug} g={g} />)}</div>
         </Sec>
         <Band h="See where you stand in 15 minutes." p="Take a free 10-question company sample. No sign-up needed to start." cta={<Btn href="/prep/infosys/#sample">Start a free sample test</Btn>} cta2={<Link href="/prep/infosys/">Explore company prep</Link>} />
       </Main>

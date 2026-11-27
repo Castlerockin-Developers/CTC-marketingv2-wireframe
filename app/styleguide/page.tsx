@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import { Faq } from '@/components/interactive';
 import { Main } from '@/components/sections';
 import { ArrowLink, Avatar, Icon, ScoreCard } from '@/components/ui';
-import { LogoMark, Wordmark } from '@/components/Logo';
+import { BrandLogo } from '@/components/Logo';
 
 export const metadata = { title: 'Style guide', robots: { index: false } };
 
@@ -43,7 +43,7 @@ export default function StyleGuide() {
         <section className="hero compact"><div className="wrap" data-enter>
           <div><span className="eyebrow">Brand system v3</span><h1 className="h1" style={{ marginTop: 12 }}>Style guide</h1>
             <p className="lead" style={{ maxWidth: 820, marginTop: 16 }}>White pages, desaturated ink text and one action violet. The logo’s lavender (#A294F9) is the accent: data, marks and the closing band. Saturated colour always means you can act on it.</p></div>
-          <div className="row" style={{ marginTop: 28, gap: 14 }}><span className="logo" style={{ margin: 0 }}><LogoMark /><Wordmark /></span><span className="badge b-v">Official mark</span></div>
+          <div className="row" style={{ marginTop: 28, gap: 14 }}><span className="logo" style={{ margin: 0 }}><BrandLogo /></span><span className="badge b-v">Official mark</span></div>
         </div></section>
 
         <SgSec eb="Colour" h="Palette and usage rules">

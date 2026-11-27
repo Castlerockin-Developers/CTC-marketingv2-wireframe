@@ -13,6 +13,7 @@ npm run lint && npm run typecheck
 1. Import the `marketing-site-v2` folder as a Vercel project (framework: Next.js; `vercel.json` sets build and install commands).
 2. Set environment variables (see `.env.example`):
    - `NEXT_PUBLIC_APP_URL` (**required in production**, the build fails without it): base URL of the web app (ctc-wapp). Log in goes to `<APP_URL>/login`; Start free, Get Pro and Register go to `<APP_URL>`.
+   - `NEXT_PUBLIC_WEB3FORMS_KEY` (**required in production**): access key from web3forms.com. The contact form, college demo form and newsletter email each submission to the inbox the key belongs to. Without it, local dev logs submissions to the console instead.
    - `NEXT_PUBLIC_SITE_URL`: canonical domain, defaults to `https://crackthecampus.com`.
    - `NEXT_PUBLIC_LINKEDIN_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`, `NEXT_PUBLIC_YOUTUBE_URL` (optional): the footer shows social links only when these are set.
 3. Add the domain. `vercel.json` sends security headers (HSTS, CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy) and long-cache headers for `/_next/static`.
@@ -36,6 +37,6 @@ GSAP 3 + `@gsap/react` in `components/Motion.tsx` (mounted once in `app/layout.t
 - **Forms are mock:** demo, contact and newsletter forms validate and show success, but send nothing (search `shortcut:`).
 - **Legal pages are drafts** written from the site’s own facts (7-day refund rule, 90-day proctoring retention). Have them reviewed before launch.
 - **Sample content:** the sample-test questions in `components/SampleQuiz.tsx` are samples. Only one guide is written; the others show "Coming soon".
-- **Images:** product visuals (practice question, proctored window, CTC Score, admin dashboard, curriculum vault) are real UI drawn in code (`PracticeWin`, `ProctorWin`, `DashWin`, `VaultWin` in `components/ui.tsx`). Photo slots still use plain tinted frames: About (team, office), contest banner, course lesson, guide hero, contact/about maps. Testimonials and the author box show names only until real photos exist.
+- **Images:** product visuals (practice question, proctored window, CTC Score, admin dashboard, curriculum vault) are real UI drawn in code (`PracticeWin`, `ProctorWin`, `DashWin`, `VaultWin` in `components/ui.tsx`). Guide covers (`public/images/guides/<slug>.jpg`) and the Code Nova 3 banner (`public/images/contest/`) are AI-generated in Figma, contain no people, and can be swapped by replacing the file. Photo slots that need real people or places still use plain tinted frames: About (team, office) and the contact/about maps. Testimonials show names only; the guide author box shows a photo once `AUTHOR.photo` is set in `content/dummy.ts`.
 - **Pricing:** confirm the struck-through prices on /pricing were really charged, or remove them.
 - **Google verification:** the meta tag reuses the live site’s Search Console property.

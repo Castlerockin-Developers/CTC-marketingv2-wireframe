@@ -4,16 +4,24 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Icon } from './ui';
-import { LogoMark, Wordmark } from './Logo';
+import { btn, SITE, tw } from './tw';
+import { BrandLogo } from './Logo';
 import { APP_URL, LOGIN_URL, COLLEGE_NAV, EMAIL, RESOURCE_NAV, STUDENT_NAV, type NavItem } from '@/content/site';
 import { PHONE } from '@/content/dummy';
 
 type Sub = { title: string; cta: string; chip: string };
 
+const NAV_LINK = "inline-flex items-center gap-1 min-h-11 px-3 rounded-[10px] bg-transparent !text-l900 text-[15px] font-medium !no-underline cursor-pointer relative hover:!text-l950 hover:bg-l50 t:px-2 [&_svg]:w-4 [&_svg]:h-4 [&_svg]:transition-transform [&_svg]:duration-fast [&[aria-current]]:!text-l950 [&[aria-current]]:after:content-[''] [&[aria-current]]:after:absolute [&[aria-current]]:after:left-3 [&[aria-current]]:after:right-3 [&[aria-current]]:after:bottom-1 [&[aria-current]]:after:h-[3px] [&[aria-current]]:after:rounded-sm [&[aria-current]]:after:bg-l400";
+// mega-menu panel; its rules reach every link and label inside, including the footer button
+const DD = "absolute top-[calc(100%+8px)] -left-2 bg-white border border-l200 rounded-2xl shadow-3 p-3 grid gap-1 z-[60] before:content-[''] before:absolute before:left-0 before:right-0 before:-top-2.5 before:h-2.5 [&_a]:flex [&_a]:gap-3 [&_a]:py-2.5 [&_a]:px-3 [&_a]:rounded-[10px] [&_a]:!no-underline [&_a]:!text-inherit [&_a]:min-h-11 [&_a]:items-start [&_a:hover]:bg-l50 [&_b]:block [&_b]:text-l950 [&_b]:text-[15px] [&_b]:leading-[22px] [&_b]:font-semibold [&_span]:block [&_span]:text-l700 [&_span]:text-[13px] [&_span]:leading-[19px]";
+const DD_SHUT = 'opacity-0 invisible -translate-y-1 [transition:opacity_var(--t-fast),transform_var(--t-fast),visibility_0s_linear_var(--t-fast)] group-hover:opacity-100 group-hover:visible group-hover:[transform:none] group-hover:[transition-delay:0s] group-focus-within:opacity-100 group-focus-within:visible group-focus-within:[transform:none] group-focus-within:[transition-delay:0s]';
+const DD_OPEN = 'opacity-100 visible [transform:none] [transition:opacity_var(--t-fast),transform_var(--t-fast),visibility_0s_linear_var(--t-fast)] [transition-delay:0s]';
+const MROW = 'w-full flex items-center justify-between min-h-14 bg-transparent !text-l950 text-[18px] leading-7 font-semibold !no-underline cursor-pointer p-0 text-left';
+
 const ddItems = (items: NavItem[], close: () => void) =>
   items.map((x) => (
-    <Link key={x.title} href={x.href} onClick={close}>
-      <span className="ic"><Icon name={x.icon} /></span>
+    <Link className="group/item" key={x.title} href={x.href} onClick={close}>
+      <span className="!inline-flex flex-none w-10 h-10 rounded-[10px] m-0 items-center justify-center bg-tint !text-act [transition:background-color_160ms_var(--ease-out),color_160ms_var(--ease-out)] group-hover/item:bg-act group-hover/item:!text-white [&_svg]:w-5 [&_svg]:h-5"><Icon name={x.icon} /></span>
       <span><b>{x.title}</b>{x.desc && <span>{x.desc}</span>}</span>
     </Link>
   ));
@@ -63,11 +71,11 @@ export default function Header({ sub, progress }: { sub?: Sub; progress?: boolea
 
   const close = () => setOpen(null);
   const navBtn = (label: string, key: string, items: NavItem[], cls = '', foot?: React.ReactNode) => (
-    <div className={`nav-item ${open === key ? 'open' : ''}`}>
-      <button className="nav-link" type="button" aria-expanded={open === key} aria-haspopup="true" aria-current={act === key ? 'true' : undefined} onClick={() => setOpen(open === key ? null : key)}>
+    <div className="relative group">
+      <button className={`${NAV_LINK} group-hover:[&_svg]:rotate-180 ${open === key ? '[&_svg]:rotate-180' : ''}`} type="button" aria-expanded={open === key} aria-haspopup="true" aria-current={act === key ? 'true' : undefined} onClick={() => setOpen(open === key ? null : key)}>
         {label}<Icon name="down" />
       </button>
-      <div className={`dd ${cls}`}>{ddItems(items, close)}{foot}</div>
+      <div className={`${DD} ${cls === 'narrow' ? 'w-[320px] grid-cols-[1fr]' : 'w-[600px] grid-cols-[1fr_1fr]'} ${open === key ? DD_OPEN : DD_SHUT}`}>{ddItems(items, close)}{foot}</div>
     </div>
   );
 
@@ -76,29 +84,29 @@ export default function Header({ sub, progress }: { sub?: Sub; progress?: boolea
 
   return (
     <>
-      <a className="skip" href="#main">Skip to content</a>
-      <header className={`hdr ${scrolled ? 'scrolled' : ''}`}>
-        <div className="wrap hdr-in">
-          <Link className="logo" href="/" aria-label="Crack The Campus home"><LogoMark /><Wordmark /></Link>
-          <nav className="nav" aria-label="Main" ref={navRef}>
+      <a className="absolute left-4 -top-[60px] z-[100] bg-act !text-white py-2.5 px-4 rounded-[10px] font-semibold !no-underline focus:top-3" href="#main">Skip to content</a>
+      <header className={`sticky top-0 z-40 bg-[rgba(255,255,255,.8)] [backdrop-filter:saturate(1.8)_blur(20px)] border-b [transition:border-color_var(--t-med),box-shadow_var(--t-med)] ${scrolled ? 'border-b-line' : 'border-transparent'}`}>
+        <div className={`${tw.wrap} flex items-center gap-2 h-[72px] m:h-16`}>
+          <Link className={`${tw.logo} mr-4 m:mr-auto`} href="/" aria-label="Crack The Campus home"><BrandLogo /></Link>
+          <nav className="flex items-center gap-0.5 m:hidden" aria-label="Main" ref={navRef}>
             {navBtn('For students', 'stu', STUDENT_NAV)}
             {navBtn('For colleges', 'col', COLLEGE_NAV, '', (
-              <div className="dd-foot"><span className="cap">See the admin suite with your own use case.</span><Link className="btn btn-p btn-sm" href="/colleges/#demo" onClick={close}>Book a demo</Link></div>
+              <div className="col-[1/-1] border-t border-l200 mt-1.5 pt-2.5 px-3 pb-0.5 flex justify-between items-center gap-3"><span className={tw.cap}>See the admin suite with your own use case.</span><Link className={btn('p', { sm: true })} data-btn="p" href="/colleges/#demo" onClick={close}>Book a demo</Link></div>
             ))}
-            <Link className="nav-link" href="/contests/code-nova-3/" aria-current={act === 'contests' ? 'page' : undefined}>Contests</Link>
-            <Link className="nav-link" href="/pricing/" aria-current={act === 'pricing' ? 'page' : undefined}>Pricing</Link>
+            <Link className={NAV_LINK} href="/contests/code-nova-3/" aria-current={act === 'contests' ? 'page' : undefined}>Contests</Link>
+            <Link className={NAV_LINK} href="/pricing/" aria-current={act === 'pricing' ? 'page' : undefined}>Pricing</Link>
             {navBtn('Resources', 'res', RESOURCE_NAV, 'narrow')}
           </nav>
-          <div className="hdr-r">
-            <a className="login" href={LOGIN_URL}>Log in</a>
-            <Link className="btn btn-p btn-sm" href={ctaHref}><span className="d-only">{cta}</span><span className="m-only">{isCol ? 'Demo' : 'Start free'}</span></Link>
-            <button className="menu-btn m-only" type="button" aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><Icon name="menu" /></button>
+          <div className="ml-auto flex items-center gap-2">
+            <a className="!text-l900 !no-underline font-medium text-[15px] min-h-11 inline-flex items-center px-3 rounded-[10px] hover:!text-l950 hover:bg-l50 m:hidden" href={LOGIN_URL}>Log in</a>
+            <Link className={btn('p', { sm: true })} data-btn="p" href={ctaHref}><span className={tw.dOnly}>{cta}</span><span className={tw.mOnlyInline}>{isCol ? 'Demo' : 'Start free'}</span></Link>
+            <button className="w-11 h-11 rounded-[10px] border border-l200 bg-white text-l950 items-center justify-center cursor-pointer [&_svg]:w-[22px] [&_svg]:h-[22px] !hidden m:!inline-flex" type="button" aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><Icon name="menu" /></button>
           </div>
         </div>
         {sub && (
-          <div className="subbar d-only"><div className="wrap"><b>{sub.title}</b><span className="chip">{sub.chip}</span><span style={{ marginLeft: 'auto' }} /><a className="btn btn-p btn-sm" href={APP_URL}>{sub.cta}</a></div></div>
+          <div className="border-t border-l200 bg-l50 m:hidden"><div className={`${tw.wrap} flex items-center gap-4 h-14`}><b className="text-l950 font-head text-[16px]">{sub.title}</b><span className={tw.chip}>{sub.chip}</span><span style={{ marginLeft: 'auto' }} /><a className={btn('p', { sm: true })} data-btn="p" href={APP_URL}>{sub.cta}</a></div></div>
         )}
-        {progress && <div className="progress" style={{ width: `${prog * 100}%` }} aria-hidden="true" />}
+        {progress && <div className="absolute left-0 -bottom-px h-[3px] w-0 bg-[linear-gradient(90deg,var(--lav),var(--act))] transition-[width] duration-[80ms] ease-linear" style={{ width: `${prog * 100}%` }} aria-hidden="true" />}
       </header>
       {menu && <MobileMenu isCol={isCol} onClose={() => setMenu(false)} />}
     </>
@@ -128,32 +136,32 @@ function MobileMenu({ isCol, onClose }: { isCol: boolean; onClose: () => void })
   }, []);
 
   const acc = (t: string, items: NavItem[], extra?: React.ReactNode) => (
-    <div className="macc">
-      <button type="button" aria-expanded={openAcc === t} onClick={() => setOpenAcc(openAcc === t ? '' : t)}>{t}<Icon name="down" /></button>
-      <ul>{items.map((x) => <li key={x.title}><Link href={x.href} onClick={onClose}>{x.title}</Link></li>)}{extra}</ul>
+    <div className="border-b border-l200 [&_li_a]:flex [&_li_a]:items-center [&_li_a]:min-h-12 [&_li_a]:px-3 [&_li_a]:rounded-[10px] [&_li_a]:!text-l900 [&_li_a]:!no-underline [&_li_a]:text-[16px] [&_li_a:hover]:bg-l50">
+      <button className={`${MROW} [&_svg]:w-5 [&_svg]:h-5 [&_svg]:transition-transform [&_svg]:duration-fast aria-expanded:[&_svg]:rotate-180`} type="button" aria-expanded={openAcc === t} onClick={() => setOpenAcc(openAcc === t ? '' : t)}>{t}<Icon name="down" /></button>
+      <ul className={`list-none pb-3 ${openAcc === t ? 'block' : 'hidden'}`}>{items.map((x) => <li key={x.title}><Link href={x.href} onClick={onClose}>{x.title}</Link></li>)}{extra}</ul>
     </div>
   );
 
   return createPortal(
-    <div className={`layer ${shown ? 'open-layer' : ''}`}>
-      <div className="site" style={{ position: 'absolute', inset: 0, background: 'transparent' }}>
-        <div className="scrim" onClick={onClose} />
-        <div className="sheet" role="dialog" aria-modal="true" aria-label="Menu" ref={ref}>
-          <div className="sheet-top">
-            <span className="logo" style={{ margin: 0 }}><LogoMark /><Wordmark /></span>
-            <button className="icon-btn" type="button" aria-label="Close menu" onClick={onClose}><Icon name="x" /></button>
+    <div className={tw.layer}>
+      <div className={`site ${SITE}`} style={{ position: 'absolute', inset: 0, background: 'transparent' }}>
+        <div className={`${tw.scrim} ${shown ? 'opacity-100' : 'opacity-0'}`} onClick={onClose} />
+        <div className={`absolute top-0 right-0 bottom-0 w-full bg-white flex flex-col transition-transform duration-med ease-site ${shown ? '[transform:none]' : 'translate-x-full'}`} role="dialog" aria-modal="true" aria-label="Menu" ref={ref}>
+          <div className="flex items-center justify-between h-16 px-5 border-b border-l200">
+            <span className={tw.logo} style={{ margin: 0 }}><BrandLogo /></span>
+            <button className={tw.iconBtn} type="button" aria-label="Close menu" onClick={onClose}><Icon name="x" /></button>
           </div>
-          <div className="sheet-body">
-            <Link className="btn btn-p btn-blk" href={isCol ? '/colleges/#demo' : APP_URL} onClick={onClose}>{isCol ? 'Book a demo' : 'Start practising free'}</Link>
+          <div className="flex-1 overflow-auto p-5 overscroll-contain">
+            <Link className={btn('p', { blk: true })} data-btn="p" href={isCol ? '/colleges/#demo' : APP_URL} onClick={onClose}>{isCol ? 'Book a demo' : 'Start practising free'}</Link>
             <div style={{ height: 12 }} />
             {acc('For students', STUDENT_NAV)}
             {acc('For colleges', COLLEGE_NAV, <li><Link href="/colleges/#demo" onClick={onClose}><b>Book a demo</b></Link></li>)}
-            <Link className="mlink" href="/contests/code-nova-3/" onClick={onClose}>Contests<Icon name="arrow" /></Link>
-            <Link className="mlink" href="/pricing/" onClick={onClose}>Pricing<Icon name="arrow" /></Link>
+            <Link className={`${MROW} border-b border-l200`} href="/contests/code-nova-3/" onClick={onClose}>Contests<Icon name="arrow" /></Link>
+            <Link className={`${MROW} border-b border-l200`} href="/pricing/" onClick={onClose}>Pricing<Icon name="arrow" /></Link>
             {acc('Resources', RESOURCE_NAV)}
-            <a className="mlink" href={LOGIN_URL}>Log in<Icon name="arrow" /></a>
+            <a className={`${MROW} border-b border-l200`} href={LOGIN_URL}>Log in<Icon name="arrow" /></a>
           </div>
-          <div className="sheet-foot">Need help? <a href={`mailto:${EMAIL}`}>{EMAIL}</a> or call {PHONE}</div>
+          <div className="pt-4 px-5 pb-6 border-t border-l200 text-[14px] text-l700">Need help? <a href={`mailto:${EMAIL}`}>{EMAIL}</a> or call {PHONE}</div>
         </div>
       </div>
     </div>,

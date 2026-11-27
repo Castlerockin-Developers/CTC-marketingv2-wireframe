@@ -1,12 +1,62 @@
 # Crack The Campus
 > Placement preparation platform for engineering students in India: company-wise aptitude and coding practice, proctored mock tests in a desktop app, and the CTC Score (a 0–10 placement readiness score). Colleges get an admin suite for proctored internal exams and readiness analytics.
 
-- [Home](https://crackthecampus.com/)
-- [Infosys placement preparation](https://crackthecampus.com/prep/infosys/)
-- [For colleges](https://crackthecampus.com/colleges/)
-- [Pricing](https://crackthecampus.com/pricing/): Free ₹0 forever; Pro from ₹3,499 for 6 months; Pro + Placement from ₹7,499 for 6 months
-- [Python for placements course](https://crackthecampus.com/courses/python/)
-- [Code Nova 3 contest](https://crackthecampus.com/contests/code-nova-3/)
-- [Placement guides](https://crackthecampus.com/guides/)
-- [About](https://crackthecampus.com/about/)
-- [Contact](https://crackthecampus.com/contact/)
+- [Placement Preparation Platform](https://crackthecampus.com/)
+
+## Students
+- [Aptitude Test for Placement: Practice & Mock Tests](https://crackthecampus.com/aptitude/)
+- [Coding Practice for Placements](https://crackthecampus.com/coding/)
+- [Placement Courses for Engineering Students](https://crackthecampus.com/courses/)
+- [Aptitude & Logical Reasoning Course for Placements](https://crackthecampus.com/courses/aptitude-reasoning/)
+- [C Programming for Placements: Free Course](https://crackthecampus.com/courses/c/)
+- [C++ for Placements: Coding Round Course](https://crackthecampus.com/courses/cpp/)
+- [Java for Placements: Beginner Course](https://crackthecampus.com/courses/java/)
+- [JavaScript Course for Freshers & Web Roles](https://crackthecampus.com/courses/javascript/)
+- [Python for Placements: Free Course](https://crackthecampus.com/courses/python/)
+- [CTC Score: Your Placement Readiness Score (0–10)](https://crackthecampus.com/ctc-score/)
+- [Download the CTC Desktop App (Windows, macOS, Linux)](https://crackthecampus.com/download/)
+- [Free Placement Mock Tests (Proctored)](https://crackthecampus.com/mock-tests/)
+- [Company-Specific Mock Tests for Placements](https://crackthecampus.com/prep/)
+- [Capgemini Mock Test & Exam Pattern 2026](https://crackthecampus.com/prep/capgemini/)
+- [Capgemini Game-Based Aptitude Practice (Free)](https://crackthecampus.com/prep/capgemini/game-based-aptitude/)
+- [Capgemini Pseudo Code Questions with Answers](https://crackthecampus.com/prep/capgemini/pseudocode/)
+- [Game-Based Aptitude Test Practice for Freshers](https://crackthecampus.com/prep/game-based-aptitude/)
+- [HCL Test Pattern & Mock Test for Freshers](https://crackthecampus.com/prep/hcl/)
+- [Infosys Mock Test & Exam Pattern 2026](https://crackthecampus.com/prep/infosys/)
+- [LTIMindtree Mock Test & Aptitude Test Pattern](https://crackthecampus.com/prep/ltimindtree/)
+- [Microsoft Online Assessment Practice for Freshers](https://crackthecampus.com/prep/microsoft/)
+- [Oracle Aptitude Test for Freshers: Practice](https://crackthecampus.com/prep/oracle/)
+- [Wipro NLTH Mock Test, Pattern & Eligibility](https://crackthecampus.com/prep/wipro/)
+- [AI Resume Builder for Freshers (ATS-Friendly)](https://crackthecampus.com/resume-builder/)
+- [Placement Preparation for Engineering Students](https://crackthecampus.com/students/)
+
+## Colleges
+- [Placement Management & Assessment Platform for Colleges](https://crackthecampus.com/colleges/)
+- [College Case Studies: Placement Readiness Results](https://crackthecampus.com/colleges/case-studies/)
+- [Book a Demo: Crack The Campus for Colleges](https://crackthecampus.com/colleges/demo/)
+- [Placement Training (CRT) for Engineering Colleges](https://crackthecampus.com/colleges/placement-training/)
+- [Online Proctored Exam Platform for Colleges](https://crackthecampus.com/colleges/proctored-exams/)
+- [Placement Readiness Assessment & Analytics](https://crackthecampus.com/colleges/readiness-analytics/)
+
+## Contests
+- [Monthly Coding Contests for College Students](https://crackthecampus.com/contests/)
+- [Code Nova 3: Free Coding Contest for Students](https://crackthecampus.com/contests/code-nova-3/)
+
+## Resources
+- [Best Placement Preparation Websites Compared (2026)](https://crackthecampus.com/compare/)
+- [FACE Prep Alternative: Crack The Campus Compared](https://crackthecampus.com/compare/face-prep/)
+- [PrepInsta Alternative: Crack The Campus Compared](https://crackthecampus.com/compare/prepinsta/)
+- [Crack The Campus Help Docs: Tests, App & Account](https://crackthecampus.com/docs/)
+- [Crack The Campus FAQ: Plans, Tests & CTC Score](https://crackthecampus.com/faq/)
+- [Placement guides for engineering students](https://crackthecampus.com/guides/)
+- [Capgemini Game-Based Aptitude Test: How to Prepare](https://crackthecampus.com/guides/capgemini-game-based-aptitude-test/)
+- [How to Prepare for Campus Placement (2026 Guide)](https://crackthecampus.com/guides/how-to-prepare-for-campus-placement/)
+- [What Is a Proctored Exam? How to Prepare (2026)](https://crackthecampus.com/guides/what-is-a-proctored-exam/)
+
+## Company
+- [About us: the team behind Crack The Campus](https://crackthecampus.com/about/)
+- [Contact us](https://crackthecampus.com/contact/)
+- [Pricing: free plan, Pro and Pro + Placement](https://crackthecampus.com/pricing/): Free ₹0 forever; Pro from ₹3,499 for 6 months; Pro + Placement from ₹7,499 for 6 months
+- [Privacy policy](https://crackthecampus.com/privacy/)
+- [Refund and cancellation policy](https://crackthecampus.com/refund-policy/)
+- [Terms of service](https://crackthecampus.com/terms/)
